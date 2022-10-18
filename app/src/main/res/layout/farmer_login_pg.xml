@@ -112,8 +112,12 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         android:src="@drawable/back_button_icon"
-        tools:layout_editor_absoluteX="14dp"
-        tools:layout_editor_absoluteY="21dp" />v
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.065"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.041" />v
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
