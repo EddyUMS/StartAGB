@@ -1,4 +1,4 @@
-//---------------------------------------------------Agent Login Activity---------------------------------------------------------------
+//---------Agent Login Activity--------------
 package com.startagb.startagb;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,19 +18,20 @@ public class MainActivity3 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.agent_login_pg);
+        create_back_button();
     }
 
 
-    public void create_listener_agent_login_page()
+    public void create_back_button()
     {
-        //Going to Farmer login page/activity
+        //Going back to choose role page/activity
         backbtn_from_agl = findViewById(R.id.backbtn_from_agl);
         backbtn_from_agl.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                //Intent i = new Intent(MainActivity.this, MainActivity2.class);
-               // startActivity(i);
-                Toast.makeText(MainActivity3.this, "agent sign in clicked", Toast.LENGTH_SHORT).show();
+               Intent i = new Intent(MainActivity3.this, MainActivity.class);
+               startActivity(i);
+               //Toast.makeText(MainActivity3.this, "agent sign in clicked", Toast.LENGTH_SHORT).show();
             }
         });
         //====================================
