@@ -31,9 +31,16 @@ public class MainActivity2 extends AppCompatActivity {
             public void onClick(View v){
                 Intent i = new Intent(MainActivity2.this, MainActivity.class);
                 startActivity(i);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 //Toast.makeText(MainActivity3.this, "agent sign in clicked", Toast.LENGTH_SHORT).show();
             }
         });
         //====================================
+    }
+
+    public void finish()
+    {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 }

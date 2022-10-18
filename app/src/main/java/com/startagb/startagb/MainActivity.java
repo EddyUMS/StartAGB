@@ -31,31 +31,30 @@ public class MainActivity extends AppCompatActivity {
 
     public void create_listener_farmer_login_page()
     {
-        //Going to Farmer login page/activity
         main_farmer_login_btn = (Button) findViewById(R.id.main_farmer_login_btn);
         main_farmer_login_btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 Intent i = new Intent(MainActivity.this, MainActivity2.class);
                 startActivity(i);
+               // overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 //Toast.makeText(MainActivity.this, "Farmer btn clicked!", Toast.LENGTH_SHORT).show();
             }
         });
-        //====================================
     }
     public void create_listener_agent_login_page()
     {
-        //Going to Agent login page/activity
         main_agent_login_btn = (Button) findViewById(R.id.main_agent_login_btn);
         main_agent_login_btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 Intent i = new Intent(MainActivity.this, MainActivity3.class);
                 startActivity(i);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 //Toast.makeText(MainActivity.this, "Agent btn clicked!", Toast.LENGTH_SHORT).show();
             }
         });
-        //====================================
     }
 }
 
