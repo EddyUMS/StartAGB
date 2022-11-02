@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "14897341359",
+    "project_id": "agbfirebasephoneauth",
+    "storage_bucket": "agbfirebasephoneauth.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:14897341359:android:e4d8edd262400ceaba055a",
+        "android_client_info": {
+          "package_name": "com.startagb.startagb"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "14897341359-2qejeencrqubgaao21vr75sv6ujqg3ck.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.startagb.startagb",
+            "certificate_hash": "71ba5ae2df789b46f21230575fe1cc33d7f30748"
+          }
+        },
+        {
+          "client_id": "14897341359-vve76hpq3lki1a2nbltijjeot69u850h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_fPKRX09CRTCwU7y_Jz3JgFC4_PpINik"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "14897341359-vve76hpq3lki1a2nbltijjeot69u850h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

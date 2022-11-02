@@ -35,6 +35,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.372" />
 
+
+    <!--
     <EditText
         android:id="@+id/farmer_username_field"
         android:layout_width="230dp"
@@ -65,20 +67,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.644" />
+       -->
 
-    <Button
-        android:id="@+id/farmer_login_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sign in"
-        app:backgroundTint="#3BB777"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.766" />
-
+    <!--
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -105,6 +96,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.897" />
+    -->
+
 
     <ImageView
         android:id="@+id/backbtn_from_fal"
@@ -117,7 +110,99 @@
         app:layout_constraintHorizontal_bias="0.065"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.041" />v
+        app:layout_constraintVertical_bias="0.041" />
+
+    <LinearLayout
+        android:id ="@+id/PhoneNumColumn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.526"
+        tools:layout_editor_absoluteX="0dp">
+
+        <EditText
+            android:id="@+id/farmer_phone_number_field"
+            android:layout_width="294dp"
+            android:layout_height="42dp"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="#000000"
+            android:ems="10"
+            android:hint="+60"
+            android:inputType="textPersonName"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:clickable="false"
+            android:fontFamily="sans-serif"
+            android:text="Enter your phone number to create an account"
+            android:textAlignment="center" />
+
+        <Button
+            android:id="@+id/farmer_num_continue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:text="Continue"
+            app:backgroundTint="#3BB777" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/CodeVerColumn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.813"
+        tools:layout_editor_absoluteX="0dp">
+
+        <EditText
+            android:id="@+id/code_verification_field"
+            android:layout_width="294dp"
+            android:layout_height="42dp"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="#000000"
+            android:ems="10"
+            android:hint="xxxx"
+            android:inputType="textPersonName"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:clickable="false"
+            android:fontFamily="sans-serif"
+            android:text="Please enter the verification number sent"
+            android:textAlignment="center" />
+        <Button
+            android:id="@+id/farmer_code_resend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:text="Resend code"
+            app:backgroundTint="#000000" />
+
+        <Button
+            android:id="@+id/farmer_code_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:text="Submit"
+            app:backgroundTint="#3BB777" />
+
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
