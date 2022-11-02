@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -42,6 +43,8 @@ public class MainActivity2 extends AppCompatActivity {
     private static final String TAG = "MAIN_TAG";
     private FirebaseAuth firebaseAuth;
     private ProgressDialog pd; //progress dialog
+    private String code;
+
     //
 
     @Override
@@ -56,6 +59,8 @@ public class MainActivity2 extends AppCompatActivity {
         //Phone auth
         flpgbng_binding.PhoneNumColumn.setVisibility(View.VISIBLE);
         flpgbng_binding.CodeVerColumn.setVisibility(View.GONE);
+        flpgbng_binding.NumErrorMsg.setVisibility(View.GONE);
+        flpgbng_binding.CodeErrorMsg.setVisibility(View.GONE);
 
         firebaseAuth = FirebaseAuth.getInstance();
         //init progress dialog
@@ -66,21 +71,27 @@ public class MainActivity2 extends AppCompatActivity {
         mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
+
                 signInWithPhoneAuthCredential(phoneAuthCredential);
+                flpgbng_binding.NumErrorMsg.setVisibility(View.GONE);
             }
 
             @Override
             public void onVerificationFailed(@NonNull FirebaseException e) {
                 pd.dismiss();
-                Toast.makeText(MainActivity2.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                flpgbng_binding.NumErrorMsg.setTextColor(Color.RED);
+                //flpgbng_binding.NumErrorMsg.setText("ERROR :"+e.getMessage());
+                flpgbng_binding.NumErrorMsg.setText("Please enter the correct phone number format");
+                flpgbng_binding.NumErrorMsg.setVisibility(View.VISIBLE);
+                //Toast.makeText(MainActivity2.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
 
             @Override
-            public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken token) {
-                super.onCodeSent(s, forceResendingToken);
-                Log.d(TAG, "onCodeSent" + nVerificationId);
-                nVerificationId = nVerificationId;
+            public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken token) {
+                super.onCodeSent(verificationId, forceResendingToken);
+                Log.d(TAG, "onCodeSent:" + verificationId);
+                nVerificationId = verificationId;
                 forceResendingToken = token;
                 pd.dismiss();
 
@@ -120,7 +131,8 @@ public class MainActivity2 extends AppCompatActivity {
         flpgbng_binding.farmerCodeSubmit.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                String code = flpgbng_binding.codeVerificationField.toString().trim();
+                String codeM = flpgbng_binding.codeVerificationField.getText().toString().trim();
+                code = codeM;
                 if(TextUtils.isEmpty(code)){
                     Toast.makeText(MainActivity2.this, "Please enter verification code...", Toast.LENGTH_SHORT).show();
                 }
@@ -133,6 +145,7 @@ public class MainActivity2 extends AppCompatActivity {
 
         create_back_button();
     }
+
 
     private void startPhoneNumberVer(String phone) {
         pd.setMessage("Verifying Phone Number");
@@ -182,7 +195,10 @@ public class MainActivity2 extends AppCompatActivity {
                     public void onSuccess(AuthResult authResult) {
                         //success signed in
                         pd.dismiss();
+                        flpgbng_binding.CodeErrorMsg.setVisibility(View.GONE);
                         Toast.makeText(MainActivity2.this, "Logged in as " +phone, Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(MainActivity2.this, FarmerHome.class);
+                        startActivity(i);
 
                     }
                 })
@@ -190,7 +206,13 @@ public class MainActivity2 extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         pd.dismiss();
-                        Toast.makeText(MainActivity2.this, "Failed"+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(MainActivity2.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        flpgbng_binding.CodeErrorMsg.setTextColor(Color.RED);
+                        //flpgbng_binding.NumErrorMsg.setText("ERROR :"+e.getMessage());
+                        flpgbng_binding.CodeErrorMsg.setText("Code entered was: " + code + "\n\n"+e.getMessage());
+                        flpgbng_binding.CodeErrorMsg.setVisibility(View.VISIBLE);
+
+                       // MainActivity3
 
                     }
                 });

@@ -150,6 +150,18 @@
             android:layout_marginTop="10dp"
             android:text="Continue"
             app:backgroundTint="#3BB777" />
+
+        <TextView
+            android:id="@+id/NumErrorMsg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="tt"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            android:textAlignment="center" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -198,6 +210,16 @@
             android:layout_marginTop="10dp"
             android:text="Submit"
             app:backgroundTint="#3BB777" />
+        <TextView
+            android:id="@+id/CodeErrorMsg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="tt"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            android:textAlignment="center" />
 
 
     </LinearLayout>
