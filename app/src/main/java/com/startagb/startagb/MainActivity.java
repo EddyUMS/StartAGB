@@ -1,6 +1,7 @@
 package com.startagb.startagb;//---------Main Activity-----------
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.select_roles_pg);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO); //sets default to dark mode
         create_listener_farmer_login_page();
         create_listener_agent_login_page();
     }
@@ -37,8 +39,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v){
                 Intent i = new Intent(MainActivity.this, MainActivity2.class);
                 startActivity(i);
-               // overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                //overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 //Toast.makeText(MainActivity.this, "Farmer btn clicked!", Toast.LENGTH_SHORT).show();
             }
         });
