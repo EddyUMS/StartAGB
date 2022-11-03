@@ -81,7 +81,7 @@ public class MainActivity2 extends AppCompatActivity {
                 pd.dismiss();
                 flpgbng_binding.NumErrorMsg.setTextColor(Color.RED);
                 //flpgbng_binding.NumErrorMsg.setText("ERROR :"+e.getMessage());
-                flpgbng_binding.NumErrorMsg.setText("Please enter the correct phone number format");
+                flpgbng_binding.NumErrorMsg.setText("Phone num: " + phone + "\n" + e.getMessage());
                 flpgbng_binding.NumErrorMsg.setVisibility(View.VISIBLE);
                 //Toast.makeText(MainActivity2.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
 
@@ -106,7 +106,7 @@ public class MainActivity2 extends AppCompatActivity {
         flpgbng_binding.farmerNumContinue.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                phone = "+60" + flpgbng_binding.farmerPhoneNumberField.getText().toString().trim();
+                phone = "+6" + flpgbng_binding.farmerPhoneNumberField.getText().toString().trim();
                 if(TextUtils.isEmpty(phone)){
                     Toast.makeText(MainActivity2.this, "Please enter phone number...", Toast.LENGTH_SHORT).show();
                 }
@@ -118,7 +118,7 @@ public class MainActivity2 extends AppCompatActivity {
         flpgbng_binding.farmerCodeResend.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                String phone = "+60" + flpgbng_binding.farmerPhoneNumberField.getText().toString().trim();
+                String phone = "+6" + flpgbng_binding.farmerPhoneNumberField.getText().toString().trim();
                 if(TextUtils.isEmpty(phone)){
                     Toast.makeText(MainActivity2.this, "Please enter phone number...", Toast.LENGTH_SHORT).show();
                 }
