@@ -18,6 +18,7 @@ public class FarmerHome extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //Check and display currently logged in user through firebase
         fh = ActivityFarmerHomeBinding.inflate(getLayoutInflater());
         setContentView(fh.getRoot());
 
@@ -36,6 +37,11 @@ public class FarmerHome extends AppCompatActivity {
 
     }
 
+
+
+
+
+    //get using firebase
     private void checkUserStatus() {
         //get current user
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
