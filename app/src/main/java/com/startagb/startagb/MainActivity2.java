@@ -185,8 +185,8 @@ public class MainActivity2 extends AppCompatActivity {
                         //success signed in
                         pd.dismiss();
                         flpgbng_binding.CodeErrorMsg.setVisibility(View.GONE);
-                        Toast.makeText(MainActivity2.this, "Logged in as " +phone, Toast.LENGTH_SHORT).show();
-                        Intent i = new Intent(MainActivity2.this, FarmerHome.class);
+                        //Toast.makeText(MainActivity2.this, "Logged in as " +phone, Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(MainActivity2.this, UserSignUp.class);
                         startActivity(i);
                     }
                 })

@@ -26,6 +26,20 @@ public class FarmerHome extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         checkUserStatus();
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //Buttons
         //logouts the user
         fh.LGbutton.setOnClickListener(new View.OnClickListener(){
             @Override
