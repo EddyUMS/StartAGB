@@ -3,11 +3,13 @@ package com.startagb.startagb;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.startagb.startagb.databinding.ActivityFarmerHomeBinding;
 import com.startagb.startagb.databinding.ActivityUserSignUpBinding;
@@ -31,6 +33,7 @@ public class UserSignUp extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 createUser();
+
             }
         });
 
@@ -44,32 +47,58 @@ public class UserSignUp extends AppCompatActivity {
 
 
     private void createUser(){
+
         Handler handler = new Handler(Looper.getMainLooper());
         handler.post(new Runnable() {
             @Override
             public void run() {
-                //Starting Write and Read data with URL
-                //Creating array for parameters
-
                 //Create for user entity
-                String[] field = new String[2];
-                field[0] = "param-1";
-                field[1] = "param-2";
+
+                String[] field = new String[6];
+                field[0] = "Userid";
+                field[1] = "FirstName";
+                field[2] = "LastName";
+                field[3] = "IsActive";
+                field[4] = "DistrictID";
+                field[5] = "UserPic";
+                //field[5] = "UserPic";
                 //Creating array for data
-                String[] data = new String[2];
-                data[0] = "data-1";
-                data[1] = "data-2";
-                PutData putData = new PutData("https://projects.vishnusivadas.com/AdvancedHttpURLConnection/putDataTest.php", "POST", field, data);
-                if (putData.startPut()) {
-                    if (putData.onComplete()) {
-                        String result = putData.getResult();
+                String[] data = new String[6];
+                //data[0] = GenerateUniqueUserID();
+                data[0] = "1092832"; //testing user id
+                data[1] = "not-set";
+                data[2] = "not-set";
+                data[3] = "1";
+                data[4] = "0";
+                data[5] = "http://192.168.49.246/AgriPriceBuddy/UserPic/user1.jpg";
+                InsertData insertData = new InsertData("http://192.168.49.246/AgriPriceBuddy/createUserEntity.php", "POST", field, data);
+                if (insertData.startPut()) {
+                    if (insertData.onComplete()) {
+                        String result = insertData.getResult();
                         //End ProgressBar (Set visibility to GONE)
-                        Log.i("PutData", result);
+                        if(result.equals("Sign Up Success")){
+                            Toast.makeText(getApplicationContext(),result,Toast.LENGTH_SHORT).show();
+                            Intent i = new Intent(UserSignUp.this, MainActivity.class);
+                            startActivity(i);
+                        }
+                        else{
+                            Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
+
+                            Intent i = new Intent(UserSignUp.this, MainActivity3.class);
+                            startActivity(i);
+                        }
+                        //Log.i("PutData", result);
                     }
                 }
                 //End Write and Read data with URL
             }
         });
+    }
+
+
+
+    private String GenerateUniqueUserID() {
+        return "";
     }
 
 
