@@ -49,15 +49,16 @@ public class InsertData extends Thread {
             StringBuilder result = new StringBuilder();
             String result_line;
             while ((result_line = bufferedReader.readLine()) != null) {
-                result.append(result_line);
+               result.append(result_line);
+
             }
             bufferedReader.close();
             inputStream.close();
             httpURLConnection.disconnect();
             setData(result.toString());
         } catch (IOException e) {
-            //setData(e.toString());
-            setData("Error hereeeee");
+            setData(e.toString());
+            //setData("got exception");
         }
     }
 

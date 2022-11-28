@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.startagb.startagb.R;
 
 import java.util.HashMap;
@@ -21,15 +22,37 @@ public class MainActivity extends AppCompatActivity {
 
     private Button main_farmer_login_btn;
     private Button main_agent_login_btn;
+    private Button testbutton;
+    FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.select_roles_pg);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO); //sets default to dark mode
         create_listener_farmer_login_page();
         create_listener_agent_login_page();
+        create_listener_test_page();
+        testbutton = (Button) findViewById(R.id.testbutton);
+        //testbutton.setVisibility(View.GONE);
     }
+
+    public void create_listener_test_page()
+    {
+        testbutton = (Button) findViewById(R.id.testbutton);
+        testbutton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent i = new Intent(MainActivity.this, TestingGround.class);
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                startActivity(i);
+            }
+        });
+    }
+
+
 
     public void create_listener_farmer_login_page()
     {

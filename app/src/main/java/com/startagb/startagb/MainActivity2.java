@@ -10,6 +10,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,11 +33,9 @@ import com.startagb.startagb.databinding.FarmerLoginPgBinding;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity2 extends AppCompatActivity {
-
+    private String roleNum = "1";
     private ImageView backbtn_from_fal;
-
     private FarmerLoginPgBinding flpgbng_binding;   //view binding
-
     //Phone aunthentication object
     private String phone;
     private PhoneAuthProvider.ForceResendingToken forceResendingToken; //if code send failed, will used to resend code
@@ -45,6 +45,8 @@ public class MainActivity2 extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private ProgressDialog pd; //progress dialog
     private String code;
+    private boolean loggin_in = false;
+
 
     //
 
@@ -56,6 +58,7 @@ public class MainActivity2 extends AppCompatActivity {
         setContentView(flpgbng_binding.getRoot());//call layout through binding
         //Phone auth
         flpgbng_binding.PhoneNumColumn.setVisibility(View.VISIBLE);
+        flpgbng_binding.PhoneNumColumnLogin.setVisibility(View.GONE);
         flpgbng_binding.CodeVerColumn.setVisibility(View.GONE);
         flpgbng_binding.NumErrorMsg.setVisibility(View.GONE);
         flpgbng_binding.CodeErrorMsg.setVisibility(View.GONE);
@@ -80,34 +83,65 @@ public class MainActivity2 extends AppCompatActivity {
                     flpgbng_binding.NumErrorMsg.setText("Phone num: " + phone + "\n" + "Please type an appropriate phone number");
                     flpgbng_binding.NumErrorMsg.setVisibility(View.VISIBLE);
                 }
-                //flpgbng_binding.NumErrorMsg.setText("Phone num: " + phone);
-                //Toast.makeText(MainActivity2.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken token) {
+                if(loggin_in == false){
                 super.onCodeSent(verificationId, forceResendingToken);
                 Log.d(TAG, "onCodeSent:" + verificationId);
                 nVerificationId = verificationId;
                 forceResendingToken = token;
                 pd.dismiss();
                 flpgbng_binding.PhoneNumColumn.setVisibility(View.GONE);
-
-
                 flpgbng_binding.CodeVerColumn.setVisibility(View.VISIBLE);
-                Toast.makeText(MainActivity2.this, "Verification Code Sent!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity2.this, "Verification Code Sent!", Toast.LENGTH_SHORT).show();}
             }
         };
+        flpgbng_binding.gotoLoginBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                flpgbng_binding.PhoneNumColumn.setVisibility(View.GONE);
+                flpgbng_binding.PhoneNumColumnLogin.setVisibility(View.VISIBLE);
+                loggin_in = true;
+            }
+        });
+
+
         //Start
         flpgbng_binding.farmerNumContinue.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 phone = flpgbng_binding.farmerPhoneNumberField.getText().toString().trim();
-                //phone = flpgbng_binding.farmerPhoneNumberField.getText().toString().trim();
                 if(TextUtils.isEmpty(phone)){
                     Toast.makeText(MainActivity2.this, "Please enter phone number...", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     startPhoneNumberVer("+60"+phone);
+                }
+            }
+        });
+
+       //Login
+        flpgbng_binding.farmerNumLogin.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                String phoneLogin = flpgbng_binding.farmerPhoneNumberFieldLogin.getText().toString().trim();
+                String passLogin = flpgbng_binding.FillPassField.getText().toString().trim();
+
+                if(TextUtils.isEmpty(phoneLogin)){
+                    Toast.makeText(MainActivity2.this, "Please enter phone number...", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    if(TextUtils.isEmpty(passLogin)){
+                        Toast.makeText(MainActivity2.this, "Please enter Password...", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        //startPhoneNumberVer("+60"+phoneLogin);
+                        Login(phoneLogin, passLogin);
+                        //Intent i = new Intent(MainActivity2.this, FarmerHome.class);
+                       // startActivity(i);
+                    }
+
                 }
             }
         });
@@ -143,6 +177,43 @@ public class MainActivity2 extends AppCompatActivity {
         });
         create_back_button();
     }
+
+    private void Login(String PhoneNumber, String password) {
+        Bundle extras2 = getIntent().getExtras();
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                String[] field = new String[2];
+                field[0] = "PhoneNumber";
+                field[1] = "password";
+                String[] data = new String[2];
+                data[0] = "+60"+PhoneNumber;
+                data[1] = password;
+
+                InsertData insertData = new InsertData("http://192.168.49.246/AgriPriceBuddy/LoginNumber.php", "POST", field, data);
+                if (insertData.startPut()) {
+                    if (insertData.onComplete()) {
+                        String result = insertData.getResult();
+                        if(result.equals("Login Success")){
+                            Intent i = new Intent(MainActivity2.this, FarmerHome.class);
+                            startActivity(i);
+                        }
+                        else{
+                            Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(),data[0],Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(),data[1],Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+
+            }
+        });
+    }
+
+
+
+
     private void startPhoneNumberVer(String phone) {
         pd.setMessage("Verifying Phone Number");
         pd.show();
@@ -187,6 +258,8 @@ public class MainActivity2 extends AppCompatActivity {
                         flpgbng_binding.CodeErrorMsg.setVisibility(View.GONE);
                         //Toast.makeText(MainActivity2.this, "Logged in as " +phone, Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(MainActivity2.this, UserSignUp.class);
+                        i.putExtra("PhoneNumber", "+60"+phone);
+                        i.putExtra("roleNum", roleNum);
                         startActivity(i);
                     }
                 })
@@ -239,4 +312,14 @@ public class MainActivity2 extends AppCompatActivity {
         super.finish();
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
+
+
+
+
+
+
+
+
+
+
 }

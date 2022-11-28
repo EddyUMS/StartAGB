@@ -22,22 +22,8 @@ public class FarmerHome extends AppCompatActivity {
         fh = ActivityFarmerHomeBinding.inflate(getLayoutInflater());
         setContentView(fh.getRoot());
 
-
         firebaseAuth = FirebaseAuth.getInstance();
         checkUserStatus();
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         //Buttons
         //logouts the user

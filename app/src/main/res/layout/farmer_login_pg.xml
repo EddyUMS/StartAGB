@@ -73,9 +73,7 @@
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:layout_gravity="center_horizontal">
-
            <TableRow>
-
                <TextView
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
@@ -96,7 +94,7 @@
                    android:ems="10"
                    android:inputType="number"
                    android:letterSpacing="0.18"
-                   android:textSize="24sp" />
+                   android:textSize="24sp"/>
            </TableRow>
        </TableLayout>
 
@@ -116,6 +114,94 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
             android:text="Continue"
+            android:layout_marginBottom="30dp"
+            app:backgroundTint="#3BB777" />
+
+        <TextView
+            android:id="@+id/gotoLoginBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:text="Already have an account? Login here"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/PhoneNumColumnLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.647"
+        tools:layout_editor_absoluteX="0dp">
+
+
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phone Number"
+                android:textStyle="bold" />
+
+            <TableRow>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10sp"
+                    android:clickable="false"
+                    android:fontFamily="sans-serif"
+                    android:text="+60"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="normal" />
+
+                <EditText
+                    android:id="@+id/farmer_phone_number_fieldLogin"
+                    android:layout_width="186dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:backgroundTint="#000000"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:letterSpacing="0.18"
+                    android:textSize="24sp" />
+            </TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Password"
+                android:textStyle="bold"
+                android:layout_marginTop="30dp"/>
+
+
+            <EditText
+                android:id="@+id/FillPassField"
+                android:layout_width="265dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:inputType="textPassword" />
+
+        </TableLayout>
+
+        <Button
+            android:id="@+id/farmer_num_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:text="Login"
             app:backgroundTint="#3BB777" />
 
 
