@@ -116,6 +116,7 @@
         app:layout_constraintVertical_bias="0.021"
         app:srcCompat="@drawable/settings_ico" />
 
+
     <Button
         android:id="@+id/side_menu_btn"
         android:layout_width="37dp"
@@ -197,14 +198,6 @@
     </TableLayout>
 
 
-
-
-
-
-
-
-
-
     <ImageView
         android:id="@+id/imageView7"
         android:layout_width="wrap_content"
@@ -260,10 +253,7 @@
             android:textAllCaps="false"
             app:backgroundTint = "@color/grey"
             android:textColor="@color/black"/>
-
-
     </TableLayout>
-
 
 
 

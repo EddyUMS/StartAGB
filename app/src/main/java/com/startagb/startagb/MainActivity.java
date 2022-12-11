@@ -45,8 +45,8 @@ public class MainActivity extends AppCompatActivity {
         testbutton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Intent i = new Intent(MainActivity.this, TestingGround.class);
-                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                MyGlobals.getInstance().setUserID("1015403");
+                Intent i = new Intent(MainActivity.this, SupervisedProducts.class);
                 startActivity(i);
             }
         });

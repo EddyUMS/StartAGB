@@ -27,6 +27,7 @@ public class UserSignUp extends AppCompatActivity {
     private ActivityUserSignUpBinding userSignupBind;
     private String password;
     public String resultFromCreateUserLogin = "Duplicate phone number";
+    public String domain = MyGlobals.getInstance().getDomain();
 
 
     @Override
@@ -58,7 +59,7 @@ public class UserSignUp extends AppCompatActivity {
                 data[0] = userId;
                 data[1] = extras2.getString("roleNum");
 
-                InsertData insertData = new InsertData("http://192.168.49.246/AgriPriceBuddy/createUserRole.php", "POST", field, data);
+                InsertData insertData = new InsertData("http://"+domain+"/AgriPriceBuddy/createUserRole.php", "POST", field, data);
                 if (insertData.startPut()) {
                     if (insertData.onComplete()) {
                         String result = insertData.getResult();
@@ -114,7 +115,7 @@ public class UserSignUp extends AppCompatActivity {
                 data[4] = time;
 
                 //while(true){
-                    InsertData insertData = new InsertData("http://192.168.49.246/AgriPriceBuddy/createUserLogin.php", "POST", field, data);
+                    InsertData insertData = new InsertData("http://"+domain+"/AgriPriceBuddy/createUserLogin.php", "POST", field, data);
                     if (insertData.startPut()) {
                         if (insertData.onComplete()) {
                             String result = insertData.getResult();
@@ -167,7 +168,7 @@ public class UserSignUp extends AppCompatActivity {
                 String[] data = new String[1];
                 data[0] = phoneNumber;
 
-                InsertData insertData = new InsertData("http://192.168.49.246/AgriPriceBuddy/fetchUserRoles.php", "POST", field, data);
+                InsertData insertData = new InsertData("http://"+domain+"/AgriPriceBuddy/fetchUserRoles.php", "POST", field, data);
                 if (insertData.startPut()) {
                     if (insertData.onComplete()) {
                         String result = insertData.getResult();
@@ -225,7 +226,7 @@ public class UserSignUp extends AppCompatActivity {
                 data[4] = "0";
                 data[5] = "";
                //while(true){
-                    InsertData insertData = new InsertData("http://192.168.49.246/AgriPriceBuddy/createUserEntity.php", "POST", field, data);
+                    InsertData insertData = new InsertData("http://"+domain+"/AgriPriceBuddy/createUserEntity.php", "POST", field, data);
                     if (insertData.startPut()) {
                         if (insertData.onComplete()) {
                             String result = insertData.getResult();

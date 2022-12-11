@@ -47,6 +47,7 @@ public class MainActivity3 extends AppCompatActivity {
     private ProgressDialog pd; //progress dialog
     private String code;
     private boolean loggin_in = false;
+    public String domain = MyGlobals.getInstance().getDomain();
     //
 
     @Override
@@ -189,7 +190,7 @@ public class MainActivity3 extends AppCompatActivity {
                 data[0] = "+60"+PhoneNumber;
                 data[1] = password;
 
-                InsertData insertData = new InsertData("http://192.168.49.246/AgriPriceBuddy/LoginNumber.php", "POST", field, data);
+                InsertData insertData = new InsertData("http://"+domain+"/AgriPriceBuddy/LoginNumber.php", "POST", field, data);
 
                 if (insertData.startPut()) {
                     if (insertData.onComplete()) {

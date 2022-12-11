@@ -17,6 +17,7 @@ public class AgentDashboard extends AppCompatActivity {
 
     FirebaseAuth firebase;
     private ActivityAgentDashboardBinding binding;
+    public String domain = MyGlobals.getInstance().getDomain();
 
 
     @Override
@@ -29,15 +30,13 @@ public class AgentDashboard extends AppCompatActivity {
         binding.addDistrictDashboard.setVisibility(View.GONE);
         binding.addNameDashboard.setVisibility(View.GONE);
 
-
         String userPhoneNumber, userUserId;
         Bundle extras = getIntent().getExtras();
         userPhoneNumber = extras.getString("PhoneNumber");
         userUserId = fetchUserID(userPhoneNumber);
-
+        MyGlobals.getInstance().setUserID(userUserId);
 
         Setup_dashboard(userPhoneNumber, userUserId);
-
 
         //Go to edit account
          binding.settingsBtn.setOnClickListener(new View.OnClickListener(){
@@ -48,7 +47,13 @@ public class AgentDashboard extends AppCompatActivity {
             }
         });
 
-
+        binding.supproductsDirectoryBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(AgentDashboard.this, SupervisedProducts.class);
+                startActivity(i);
+            }
+        });
     }
 
 
@@ -66,19 +71,8 @@ public class AgentDashboard extends AppCompatActivity {
         else{
 
         }
-
-
-
-
-
-
         //binding.fullnameTxt.setText(userPhoneNumber + "  " + userUserId);
         binding.districtTxt.setText(fetchUserDis(userUserId));
-
-
-
-
-
     }
 
 
@@ -97,7 +91,7 @@ public class AgentDashboard extends AppCompatActivity {
 
         String[] data = new String[1];
         data[0] = phoneNumber;
-        InsertData insertData = new InsertData("http://192.168.49.246/AgriPriceBuddy/fetchUserRoles.php", "POST", field, data);
+        InsertData insertData = new InsertData("http://"+domain+"/AgriPriceBuddy/fetchUserRoles.php", "POST", field, data);
         if (insertData.startPut()) {
             if (insertData.onComplete()) {
                 String result = insertData.getResult();
@@ -122,7 +116,7 @@ public class AgentDashboard extends AppCompatActivity {
 
         String[] data = new String[1];
         data[0] = Userid;
-        InsertData insertData = new InsertData("http://192.168.49.246/AgriPriceBuddy/fetchUserDistrict.php", "POST", field, data);
+        InsertData insertData = new InsertData("http://"+domain+"/AgriPriceBuddy/fetchUserDistrict.php", "POST", field, data);
         if (insertData.startPut()) {
             if (insertData.onComplete()) {
                 String districtR = insertData.getResult();
@@ -145,7 +139,7 @@ public class AgentDashboard extends AppCompatActivity {
 
         String[] data = new String[1];
         data[0] = Userid;
-        InsertData insertData = new InsertData("http://192.168.49.246/AgriPriceBuddy/fetchUserfName.php", "POST", field, data);
+        InsertData insertData = new InsertData("http://"+domain+"/AgriPriceBuddy/fetchUserfName.php", "POST", field, data);
         if (insertData.startPut()) {
             if (insertData.onComplete()) {
                 String fnameR = insertData.getResult();
