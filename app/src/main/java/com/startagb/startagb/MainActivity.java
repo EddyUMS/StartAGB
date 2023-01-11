@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
             @Override
             public void onClick(View v){
                 MyGlobals.getInstance().setUserID("1015403");
-                Intent i = new Intent(MainActivity.this, SupervisedProducts.class);
+                Intent i = new Intent(MainActivity.this, ResetPassword.class);
                 startActivity(i);
             }
         });

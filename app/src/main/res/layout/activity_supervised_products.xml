@@ -3,15 +3,42 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
     tools:context=".SupervisedProducts">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="horizontal"
+        android:translationZ="90dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/SupervisedItemsBTN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Supervised Items"
+            android:backgroundTint="#CFFDE1"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            />
 
 
+        <Button
+            android:id="@+id/UnsupervisedItemsBTN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Browse"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/black"/>
 
+
+    </LinearLayout>
 
 
     <LinearLayout
@@ -101,23 +128,34 @@
         android:layout_height="wrap_content"
         android:id="@+id/filter"
         android:background="#ffffff">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <ImageView
-                android:visibility="visible"
+            <LinearLayout
                 android:id="@+id/imageView9"
-                android:layout_width="411dp"
-                android:layout_height="72dp"
-                android:animateLayoutChanges="true"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
-                app:srcCompat="@drawable/sv_bar"
-                />
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/teal_200"
+                >
+                <ImageView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/back_arrow2"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"/>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Supervisions"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:layout_gravity="center"/>
+
+            </LinearLayout>
             <TableLayout
                 android:visibility="visible"
                 android:animateLayoutChanges="true"
@@ -210,7 +248,9 @@
                         />
 
                 </LinearLayout>
+
             </LinearLayout>
+
             <TableLayout
                 android:id="@+id/svUsvLT"
                 android:layout_width="wrap_content"
@@ -219,52 +259,27 @@
                 android:layout_marginTop="15dp"
                 android:padding="0dp">
                 <TableRow>
-                    <LinearLayout
-                        android:id="@+id/SupervisedItemsBTN"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="#59CE8F"
-                        android:clickable="true"
-                        android:layout_weight="1">
 
-                        <TextView
-                            android:id="@+id/svItemTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_column="0"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:height="40dp"
-                            android:gravity="center"
-                            android:text="Supervised Items"
-                            android:textColor="@color/white"
-                            android:textSize="16dp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/UnsupervisedItemsBTN"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:layout_weight="1"
-                        android:background="#f6f6f6"                        >
-
-                        <TextView
-                            android:id="@+id/usvItemTextView"
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:layout_column="0"
-                            android:height="40dp"
-                            android:gravity="center"
-                            android:text="Browse"
-                            android:textSize="16dp"
-                            android:textStyle="bold"
-                            android:textColor="#a6a6a6"/>
-                    </LinearLayout>
                 </TableRow>
             </TableLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:background="@color/teal_700">
+                <TextView
+                    android:id="@+id/supDis"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="District"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"/>
+
+            </LinearLayout>
 
         </LinearLayout>
+
 
     </FrameLayout>
 

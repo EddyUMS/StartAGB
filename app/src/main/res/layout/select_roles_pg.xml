@@ -143,7 +143,7 @@
                     android:layout_height="wrap_content"
                     android:text="No"
                     android:layout_gravity="center_horizontal"
-                    android:backgroundTint="#FF0030"/>
+                    android:backgroundTint="#000000"/>
                 <TextView
                     android:layout_width="100dp"
                     android:layout_height="10dp"/>

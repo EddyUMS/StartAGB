@@ -113,7 +113,7 @@
                     android:ems="10"
                     android:inputType="number"
                     android:letterSpacing="0.18"
-                    android:textSize="24sp"/>
+                    android:textSize="25sp"/>
             </TableRow>
         </TableLayout>
 
@@ -147,6 +147,18 @@
 
 
     </LinearLayout>
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/resetpassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Forgot password?"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PhoneNumColumnLogin"
+        app:layout_constraintVertical_bias="0.154"
+        tools:layout_editor_absoluteX="0dp" />
 
     <LinearLayout
         android:id="@+id/PhoneNumColumnLogin"
@@ -185,14 +197,14 @@
 
                 <EditText
                     android:id="@+id/agent_phone_number_fieldLogin"
-                    android:layout_width="186dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:backgroundTint="#000000"
                     android:ems="10"
                     android:inputType="number"
                     android:letterSpacing="0.18"
-                    android:textSize="24sp" />
+                    android:textSize="25sp" />
             </TableRow>
 
             <TextView
@@ -209,6 +221,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:ems="10"
+                android:textSize="25sp"
                 android:gravity="center_horizontal"
                 android:inputType="textPassword" />
 

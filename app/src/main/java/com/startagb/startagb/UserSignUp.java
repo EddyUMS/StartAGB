@@ -4,11 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.startagb.startagb.databinding.ActivityFarmerHomeBinding;
@@ -16,11 +22,15 @@ import com.startagb.startagb.databinding.ActivityUserSignUpBinding;
 import com.startagb.startagb.databinding.FarmerLoginPgBinding;
 import com.vishnusivadas.advanced_httpurlconnection.PutData;
 
+import java.io.ByteArrayOutputStream;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class UserSignUp extends AppCompatActivity {
 
@@ -28,6 +38,7 @@ public class UserSignUp extends AppCompatActivity {
     private String password;
     public String resultFromCreateUserLogin = "Duplicate phone number";
     public String domain = MyGlobals.getInstance().getDomain();
+    public String http = MyGlobals.getInstance().getHttp();
 
 
     @Override
@@ -40,9 +51,43 @@ public class UserSignUp extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 password = userSignupBind.createPassField.getText().toString().trim();
-                createUser();
+
+                if(!FieldIsEmpty(userSignupBind.createPassField)){
+                    if(isValidPassword(password)){
+                        createUser();
+                        userSignupBind.validPassWarning.setVisibility(View.GONE);
+                    }
+                    else{
+                        userSignupBind.validPassWarning.setVisibility(View.VISIBLE);
+                        userSignupBind.validPassWarning.setText("*Password must contain minimum 8 characters at least 1 Alphabet, 1 Number and 1 Special Character");
+                    }
+                }
+                else{
+                    userSignupBind.validPassWarning.setVisibility(View.VISIBLE);
+                    userSignupBind.validPassWarning.setText("*Enter a password");
+                }
             }
         });
+        userSignupBind.goBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(UserSignUp.this, MainActivity.class);
+                startActivity(i);
+            }
+        });
+    }
+    private boolean FieldIsEmpty(EditText etText) {
+        return etText.getText().toString().trim().length() == 0;
+    }
+    public static boolean isValidPassword(final String password) {
+
+        Pattern pattern;
+        Matcher matcher;
+        final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{4,}$";
+        pattern = Pattern.compile(PASSWORD_PATTERN);
+        matcher = pattern.matcher(password);
+        return matcher.matches();
+
     }
 
     private void createUserRole(String userId, String phoneNum) {
@@ -58,23 +103,27 @@ public class UserSignUp extends AppCompatActivity {
                 String[] data = new String[2];
                 data[0] = userId;
                 data[1] = extras2.getString("roleNum");
+                MyGlobals.getInstance().setCurrentRole(data[1]);
 
-                InsertData insertData = new InsertData("http://"+domain+"/AgriPriceBuddy/createUserRole.php", "POST", field, data);
+                InsertData insertData = new InsertData(http+"://"+domain+"/AgriPriceBuddy/createUserRole.php", "POST", field, data);
                 if (insertData.startPut()) {
                     if (insertData.onComplete()) {
                         String result = insertData.getResult();
                         if(result.equals("User role created successfully")){
                             if(isFarmer){
-                                Intent i = new Intent(UserSignUp.this, FarmerHome.class);
+                                Intent i = new Intent(UserSignUp.this, FarmerDashboard.class);
                                 i.putExtra("PhoneNumber", phoneNum);
                                 i.putExtra("Userid", userId);
                                 startActivity(i);
                             }
                             else{
+                                userSignupBind.applyFrame.setVisibility(View.VISIBLE);
+                                pendAgent(data[0]);
+                                /*
                                 Intent i = new Intent(UserSignUp.this,  AgentDashboard.class);
                                 i.putExtra("PhoneNumber", phoneNum);
                                 i.putExtra("Userid", userId);
-                                startActivity(i);
+                                startActivity(i);*/
                             }
                         }
                         else{
@@ -85,7 +134,30 @@ public class UserSignUp extends AppCompatActivity {
             }
         });
     }
+    private void pendAgent(String userID){
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
 
+                String[] field = new String[1];
+                field[0] = "userID";
+
+                String[] data = new String[1];
+                data[0] = userID;
+
+                InsertData insertData = new InsertData(http+"://"+domain+"/AgriPriceBuddy/pendAgent.php", "POST", field, data);
+                if (insertData.startPut()) {
+                    if (insertData.onComplete()) {
+                        String result = insertData.getResult();
+
+                    }
+                }
+
+            }
+        });
+
+    }
     private void createUserLogin(String userId) {
         Bundle extras = getIntent().getExtras();
         Handler handler = new Handler(Looper.getMainLooper());
@@ -115,7 +187,7 @@ public class UserSignUp extends AppCompatActivity {
                 data[4] = time;
 
                 //while(true){
-                    InsertData insertData = new InsertData("http://"+domain+"/AgriPriceBuddy/createUserLogin.php", "POST", field, data);
+                    InsertData insertData = new InsertData(http+"://"+domain+"/AgriPriceBuddy/createUserLogin.php", "POST", field, data);
                     if (insertData.startPut()) {
                         if (insertData.onComplete()) {
                             String result = insertData.getResult();
@@ -155,7 +227,6 @@ public class UserSignUp extends AppCompatActivity {
             }
         });
     }
-
     private void fetchUserRoles(String phoneNumber) {
         Bundle extras2 = getIntent().getExtras();
         Handler handler = new Handler(Looper.getMainLooper());
@@ -168,7 +239,7 @@ public class UserSignUp extends AppCompatActivity {
                 String[] data = new String[1];
                 data[0] = phoneNumber;
 
-                InsertData insertData = new InsertData("http://"+domain+"/AgriPriceBuddy/fetchUserRoles.php", "POST", field, data);
+                InsertData insertData = new InsertData(http+"://"+domain+"/AgriPriceBuddy/fetchUserRoles.php", "POST", field, data);
                 if (insertData.startPut()) {
                     if (insertData.onComplete()) {
                         String result = insertData.getResult();
@@ -201,10 +272,8 @@ public class UserSignUp extends AppCompatActivity {
             }
         });
     }
-
-
-
     private void createUser(){
+
         Handler handler = new Handler(Looper.getMainLooper());
         handler.post(new Runnable() {
             @Override
@@ -225,8 +294,10 @@ public class UserSignUp extends AppCompatActivity {
                 data[3] = "1";
                 data[4] = "0";
                 data[5] = "";
+
+
                //while(true){
-                    InsertData insertData = new InsertData("http://"+domain+"/AgriPriceBuddy/createUserEntity.php", "POST", field, data);
+                    InsertData insertData = new InsertData(http+"://"+domain+"/AgriPriceBuddy/createUserEntity.php", "POST", field, data);
                     if (insertData.startPut()) {
                         if (insertData.onComplete()) {
                             String result = insertData.getResult();
@@ -243,7 +314,6 @@ public class UserSignUp extends AppCompatActivity {
             }
         });
     }
-
     private String GenerateUniqueUserID() {
         Random r = new Random();
         int low = 1000000;

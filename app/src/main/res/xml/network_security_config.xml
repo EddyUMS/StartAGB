@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">717d-183-171-158-213.ap.ngrok.io</domain>
+        <domain includeSubdomains="true"> https://0c9c-183-171-158-213.ap.ngrok.io</domain>
+        <domain includeSubdomains="true">localhost</domain>
+
+    </domain-config>
+</network-security-config>

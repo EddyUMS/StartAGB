@@ -20,4 +20,5 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="add_district">Loading location info...</string>
     <string name="add_name"><u>Add Name</u></string>
+    <string name="clear"><u>Clear</u></string>
 </resources>

@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class TestingGround extends AppCompatActivity {
+    public String http = MyGlobals.getInstance().getHttp();
 
     private Button Testbutton;
 
@@ -80,7 +81,7 @@ public class TestingGround extends AppCompatActivity {
                 String[] data = new String[1];
                 data[0] = "+601125280456";
 
-                InsertData insertData = new InsertData("http://192.168.49.246/AgriPriceBuddy/fetchUserRoles.php", "POST", field, data);
+                InsertData insertData = new InsertData(http+"://192.168.49.246/AgriPriceBuddy/fetchUserRoles.php", "POST", field, data);
                 if (insertData.startPut()) {
                     if (insertData.onComplete()) {
                         String result = insertData.getResult();

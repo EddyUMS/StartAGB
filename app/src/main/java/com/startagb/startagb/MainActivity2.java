@@ -8,10 +8,12 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,6 +35,7 @@ import com.startagb.startagb.databinding.FarmerLoginPgBinding;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity2 extends AppCompatActivity {
+    public String http = MyGlobals.getInstance().getHttp();
     private String roleNum = "1";
     private ImageView backbtn_from_fal;
     private FarmerLoginPgBinding flpgbng_binding;   //view binding
@@ -48,7 +51,8 @@ public class MainActivity2 extends AppCompatActivity {
     private boolean loggin_in = false;
     public String domain = MyGlobals.getInstance().getDomain();
 
-
+    public SharedPreferences settings;
+    SharedPreferences.Editor editor;
     //
 
     @Override
@@ -68,6 +72,10 @@ public class MainActivity2 extends AppCompatActivity {
         pd = new ProgressDialog(this);
         pd.setTitle("Please wait...");
         pd.setCanceledOnTouchOutside(false);
+        settings =  PreferenceManager.getDefaultSharedPreferences(MainActivity2.this);
+        SharedPreferences.Editor editorr = settings.edit();
+        editor = editorr;
+
         mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
@@ -101,11 +109,21 @@ public class MainActivity2 extends AppCompatActivity {
         flpgbng_binding.gotoLoginBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                flpgbng_binding.resetpassword.setVisibility(View.VISIBLE);
                 flpgbng_binding.PhoneNumColumn.setVisibility(View.GONE);
                 flpgbng_binding.PhoneNumColumnLogin.setVisibility(View.VISIBLE);
                 loggin_in = true;
             }
         });
+
+        flpgbng_binding.resetpassword.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity2.this, ResetPassword.class);
+                startActivity(i);
+            }
+        });
+
 
 
         //Start
@@ -122,12 +140,26 @@ public class MainActivity2 extends AppCompatActivity {
             }
         });
 
+        if(!settings.getString("phonenum", "0").equals("0")){
+            if(!settings.getString("pass", "0").equals("0")){
+                if(settings.getString("role", "0").equals("1")){
+                    Login(settings.getString("phonenum", "0"), settings.getString("pass", "0"));
+                }
+            }
+        }
+        else{
+        }
+
        //Login
         flpgbng_binding.farmerNumLogin.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 String phoneLogin = flpgbng_binding.farmerPhoneNumberFieldLogin.getText().toString().trim();
                 String passLogin = flpgbng_binding.FillPassField.getText().toString().trim();
+
+                editor.putString("phonenum", phoneLogin);
+                editor.putString("pass", passLogin);
+                //editor.commit();
 
                 if(TextUtils.isEmpty(phoneLogin)){
                     Toast.makeText(MainActivity2.this, "Please enter phone number...", Toast.LENGTH_SHORT).show();
@@ -137,15 +169,19 @@ public class MainActivity2 extends AppCompatActivity {
                         Toast.makeText(MainActivity2.this, "Please enter Password...", Toast.LENGTH_SHORT).show();
                     }
                     else{
-                        //startPhoneNumberVer("+60"+phoneLogin);
                         Login(phoneLogin, passLogin);
-                        //Intent i = new Intent(MainActivity2.this, FarmerHome.class);
-                       // startActivity(i);
                     }
 
                 }
             }
-        });
+        });/*
+        if(MyGlobals.getInstance().getCurrentUserPhoneNum() != null){
+            if(MyGlobals.getInstance().getCurrentRole().equals("1")){
+                Login(MyGlobals.getInstance().getCurrentPhoneNum(), MyGlobals.getInstance().getCurrentUserPass());
+            }
+
+        }*/
+
         flpgbng_binding.farmerCodeResend.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -178,7 +214,6 @@ public class MainActivity2 extends AppCompatActivity {
         });
         create_back_button();
     }
-
     private void Login(String PhoneNumber, String password) {
         Bundle extras2 = getIntent().getExtras();
         Handler handler = new Handler(Looper.getMainLooper());
@@ -192,13 +227,12 @@ public class MainActivity2 extends AppCompatActivity {
                 data[0] = "+60"+PhoneNumber;
                 data[1] = password;
 
-                InsertData insertData = new InsertData("http://"+domain+"/AgriPriceBuddy/LoginNumber.php", "POST", field, data);
+                InsertData insertData = new InsertData(http+"://"+domain+"/AgriPriceBuddy/LoginNumber.php", "POST", field, data);
                 if (insertData.startPut()) {
                     if (insertData.onComplete()) {
                         String result = insertData.getResult();
                         if(result.equals("Login Success")){
-                            Intent i = new Intent(MainActivity2.this, FarmerHome.class);
-                            startActivity(i);
+                            fetchUserRoles(data[0]);
                         }
                         else{
                             Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
@@ -211,10 +245,75 @@ public class MainActivity2 extends AppCompatActivity {
             }
         });
     }
+    private void fetchUserRoles(String UserphoneNumber) {
+        Bundle extras2 = getIntent().getExtras();
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                String[] field = new String[1];
+                field[0] = "PhoneNumber";
 
+                String[] data = new String[1];
+                data[0] = UserphoneNumber;
 
+                InsertData insertData = new InsertData(http+"://"+domain+"/AgriPriceBuddy/fetchUserRoles.php", "POST", field, data);
+                if (insertData.startPut()) {
+                    if (insertData.onComplete()) {
+                        String result = insertData.getResult();
+                        String[] parts = result.split("\\|");
+                        String userId  = parts[0];
+                        String retriUserrole = parts[1];
+                        MyGlobals.getInstance().setCurrentRole(retriUserrole);
+                        editor.putString("role", retriUserrole);
+                        editor.commit();
+                        boolean RegisteredAgent = retriUserrole.indexOf("2") !=-1? true: false;
+                        if(RegisteredAgent){
 
+                            Toast.makeText(getApplicationContext(),"User is not registered as Farmer",Toast.LENGTH_LONG).show();
 
+                        }
+                        else
+                        {
+                            boolean RegisteredAgentVer2 = retriUserrole.indexOf("NAR") !=-1? true: false;
+                            if(RegisteredAgentVer2){
+                                Toast.makeText(getApplicationContext(),"User is not registered as Farmer",Toast.LENGTH_LONG).show();
+
+                            }
+                            else{
+                                Intent i = new Intent(MainActivity2.this, FarmerDashboard.class);
+                                i.putExtra("PhoneNumber",  UserphoneNumber);
+                                startActivity(i);
+                                overridePendingTransition(0,0);
+                            }
+
+                        }
+                    }
+                }
+            }
+        });
+    }
+    private String fetchUserID(String phoneNumber) {
+
+        String userid = "not set";
+        String[] field = new String[1];
+        field[0] = "PhoneNumber";
+        String[] data = new String[1];
+        data[0] = phoneNumber;
+        InsertData insertData = new InsertData(http+"://"+domain+"/AgriPriceBuddy/fetchUserRoles.php", "POST", field, data);
+        if (insertData.startPut()) {
+            if (insertData.onComplete()) {
+                String result = insertData.getResult();
+                String[] parts = result.split("\\|");
+                userid = parts[0];
+                return userid;
+            }
+        }
+        else{
+            return "Error";
+        }
+        return userid;
+    }
     private void startPhoneNumberVer(String phone) {
         pd.setMessage("Verifying Phone Number");
         pd.show();
@@ -240,14 +339,12 @@ public class MainActivity2 extends AppCompatActivity {
                         .build();
         PhoneAuthProvider.verifyPhoneNumber(options);
     }
-
     private void VerifyPhoneNumberWithCode(String nVerificationId, String code) {
         pd.setMessage("Verifying Code");
         pd.show();
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(nVerificationId, code);
         signInWithPhoneAuthCredential(credential);
     }
-
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
         pd.setMessage("Logging in");
         firebaseAuth.signInWithCredential(credential)

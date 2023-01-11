@@ -1,0 +1,761 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FarmerDashboard">
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout7"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/noti_bar_agent"
+        app:layout_constraintVertical_bias="0.603"/>
+    <ImageView
+        android:id="@+id/navBtn"
+        android:layout_width="41dp"
+        android:layout_height="44dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.057"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="-710dp"
+        app:srcCompat="@drawable/side_menu_ico" />
+
+    <LinearLayout
+        android:id="@+id/editNameOverlay"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:translationZ="90dp"
+        android:orientation="vertical"
+
+        android:padding="20dp"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Edit name"
+                android:textSize="20sp"
+                android:layout_gravity="center"/>
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#f1f1f1"
+            android:padding="0dp"
+            android:layout_marginBottom="20dp">
+            <EditText
+                android:id="@+id/fNameED"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:padding="10dp"
+                android:hint="Firstname"
+                android:textSize="16dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#f1f1f1"
+            android:padding="0dp"
+            android:layout_marginBottom="10dp">
+            <EditText
+                android:id="@+id/lNameED"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:padding="10dp"
+                android:hint="Lastname"
+                android:textSize="16dp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/succName"
+            android:visibility="visible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="*Name successfully updated"
+            android:layout_marginBottom="10dp"
+            android:textColor="#B6E2A1"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/cancelNameBTN"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="cancel"
+                android:backgroundTint="#000000"/>
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"/>
+            <Button
+                android:id="@+id/confirmNameBTN"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="confirm"
+                android:backgroundTint="#B6E2A1"/>
+
+        </LinearLayout>
+
+
+
+
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/locPBframe"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#60000000"
+        android:translationZ="99dp"
+        android:clickable="true"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ProgressBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="visible"/>
+        </LinearLayout>
+    </FrameLayout>
+
+
+
+
+
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/notiNumCard"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="45dp"
+        android:layout_marginRight="90dp"
+        app:cardCornerRadius="250dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+        app:layout_constraintEnd_toEndOf="@+id/imageView7"
+        app:layout_constraintStart_toStartOf="@+id/imageView7">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#DC0000"></LinearLayout>
+
+        <TextView
+            android:id="@+id/notiNumTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+    </androidx.cardview.widget.CardView>
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout7"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteY="70dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:cardCornerRadius="250dp">
+
+                <ImageView
+                    android:id="@+id/userPic"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:clickable="true"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@android:drawable/ic_menu_add" />
+
+                <ProgressBar
+                    android:id="@+id/loadPicPB"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="gone" />
+            </androidx.cardview.widget.CardView>
+
+
+        </LinearLayout>
+
+
+        <TableLayout
+            android:layout_gravity="center"
+            android:id="@+id/hasUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true">
+            <TableRow
+                android:gravity="center_horizontal">
+                <TextView
+                    android:id="@+id/username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="username"
+                    android:textColor="#50000000" />
+
+                <ImageView
+                    android:layout_marginLeft="5dp"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="center"
+                    app:srcCompat="@android:drawable/ic_menu_edit"
+                    tools:layout_editor_absoluteX="36dp"
+                    tools:layout_editor_absoluteY="96dp" />
+            </TableRow>
+        </TableLayout>
+
+        <TableLayout
+            android:layout_gravity="center"
+            android:id="@+id/EditDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:clickable="true">
+            <TableRow
+                android:gravity="center_horizontal">
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Edit description"
+                    android:textColor="#50000000" />
+                <ImageView
+                    android:layout_marginLeft="5dp"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="center"
+                    app:srcCompat="@android:drawable/ic_menu_edit"
+                    tools:layout_editor_absoluteX="36dp"
+                    tools:layout_editor_absoluteY="96dp" />
+            </TableRow>
+        </TableLayout>
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="260dp"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="30dp"
+               >
+                <ImageView
+                    android:id="@+id/trackItems_directory_btn"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    app:srcCompat="@drawable/tracked_item" />
+                <TextView
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"/>
+                <ImageView
+                    android:id="@+id/market_directory_btn"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    app:srcCompat="@drawable/browse" />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
+                <ImageView
+                    android:id="@+id/users_directory_btn"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    app:srcCompat="@drawable/users_6" />
+                <TextView
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"/>
+                <ImageView
+                    android:id="@+id/transactions_directory_btn"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    app:srcCompat="@drawable/trans" />
+
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+
+
+
+        <ScrollView
+            android:id="@+id/scrollView2"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginTop="55dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView7"
+            app:layout_constraintVertical_bias="0">
+
+            <LinearLayout
+                android:id="@+id/notificationSection"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:orientation="horizontal"
+                tools:layout_editor_absoluteX="0dp">
+                <ProgressBar
+                    android:id="@+id/loadNotiPB"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" />
+                <GridView
+                    android:id="@+id/notiGridView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="300dp"
+                    android:numColumns="1"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:visibility="visible"
+                    android:listSelector="#00000000"/>
+
+
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/descFrame"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shadow_235037"
+        android:translationZ="100dp"
+        android:clickable="true"
+        android:padding="43dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/closeDescBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:translationZ="98dp"
+                android:visibility="visible"
+                android:layout_marginBottom="20dp"
+                app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
+                android:layout_gravity="right"
+                android:clickable="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="*Should not be more than 160 words"
+                android:layout_marginBottom="10dp"/>
+
+            <LinearLayout
+                android:visibility="visible"
+                android:layout_width="312dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+
+                android:background="#F1F1F1"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:orientation="vertical">
+
+
+                <EditText
+                    android:id="@+id/desc_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:background="@android:color/transparent"
+                    android:hint="Description"
+                    android:inputType="textMultiLine"
+                    android:padding="10dp"
+                    android:textSize="16dp"
+                    android:textStyle="normal"
+                    />
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:orientation="horizontal"
+                android:gravity="right">
+
+                <Button
+                    android:id="@+id/done_desc_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Done"
+                    android:backgroundTint="#CFFDE1"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    />
+
+
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+
+
+
+    </FrameLayout>
+
+
+    <TextView
+        android:id="@+id/clearNoti"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="35dp"
+        android:clickable="true"
+        android:text="@string/clear"
+        android:textSize="16sp"
+
+        app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <FrameLayout
+        android:id="@+id/sideMenuFrame"
+        android:layout_width="130dp"
+        android:visibility="visible"
+        android:layout_height="match_parent"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="@drawable/shadow_235037"
+                android:padding="25dp">
+                <ImageView
+                    android:id="@+id/dashboard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    app:srcCompat="@drawable/dashboard" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="@drawable/shadow_235037"
+                android:padding="25dp">
+                <ImageView
+                    android:id="@+id/about"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    app:srcCompat="@drawable/abb" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="@drawable/shadow_235037"
+                android:padding="25dp">
+                <ImageView
+                    android:id="@+id/feedback"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    app:srcCompat="@drawable/userfeedback" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="@drawable/shadow_235037"
+                android:padding="30dp">
+                <ImageView
+                    android:id="@+id/logout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/logout"
+                    android:clickable="true"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </FrameLayout>
+    <FrameLayout
+        android:id="@+id/chatFrame"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:translationZ="93dp"
+        android:clickable="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/closeChat"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="#8012A53A"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chat"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:layout_marginLeft="35dp"
+                    android:layout_marginTop="10dp"
+                    />
+
+                <ImageView
+                    android:id="@+id/imageView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="8dp"
+                    app:srcCompat="@drawable/back_arrow" />
+            </LinearLayout>
+
+            <GridView
+
+                android:id="@+id/chatGridView"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:numColumns="1"
+                android:paddingLeft="0dp"
+                android:background="@color/white"
+                android:backgroundTint="@color/white"
+                android:visibility="visible" />
+        </LinearLayout>
+    </FrameLayout>
+    <FrameLayout
+        android:id="@+id/chatBoxFrame"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:translationZ="94dp"
+        android:clickable="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/closeChatBox"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="#8012A53A"
+                android:clickable="true">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/back_arrow2" />
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="250dp"
+                    app:cardBackgroundColor="@color/black"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    >
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="250dp"
+                        android:layout_gravity="center">
+                        <ImageView
+                            android:id="@+id/senderImg"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/alert"
+                            android:scaleType="centerCrop"/>
+                    </androidx.cardview.widget.CardView>
+                </androidx.cardview.widget.CardView>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:padding="10dp">
+                    <TextView
+                        android:id="@+id/senderUserName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="user"
+                        android:layout_gravity="left"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"/>
+                </LinearLayout>
+            </LinearLayout>
+            <GridView
+                android:id="@+id/chatBoxGridView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:numColumns="1"
+                android:backgroundTint="#D6E4E5"
+                android:visibility="visible"
+                android:scrollbars="vertical"
+                android:layout_marginBottom="65dp"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_gravity="bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:background="@color/white">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#f1f1f1"
+                android:padding="0dp">
+                <EditText
+                    android:id="@+id/sentMessage"
+                    android:layout_width="330dp"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:padding="10dp"
+                    android:hint="type here"
+                    android:textSize="16dp"
+                    android:layout_gravity="center"/>
+
+            </LinearLayout>
+            <ImageView
+                android:id="@+id/sendMessage"
+                android:layout_width="50dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:clickable="true"
+                app:srcCompat="@android:drawable/ic_menu_send" />
+        </LinearLayout>
+    </FrameLayout>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/chatNumCard"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center"
+        app:cardCornerRadius="250dp"
+        app:layout_constraintBottom_toTopOf="@+id/floatingActionButton"
+        app:layout_constraintEnd_toStartOf="@+id/floatingActionButton"
+        android:layout_marginRight="-75dp"
+        android:layout_marginBottom="-30dp"
+        android:translationZ="90dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#DC0000"></LinearLayout>
+
+        <TextView
+            android:id="@+id/chatNumTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+    </androidx.cardview.widget.CardView>
+
+
+    <ImageView
+        android:id="@+id/floatingActionButton"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:clickable="true"
+        android:text="Chats"
+        android:translationZ="90dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/clearNoti"
+        app:srcCompat="@drawable/chats" />
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -93,8 +93,8 @@ import android.util.Base64;
 
 public class SupervisedProducts extends AppCompatActivity implements LocationListener {
     public String domain = MyGlobals.getInstance().getDomain();
+    public String http = MyGlobals.getInstance().getHttp();
     private ActivitySupervisedProductsBinding binding;
-    private GridItemBinding gridBinding;
     //Main SV page
     private Button backBTN;
     private FloatingActionButton addItemBTN;
@@ -165,7 +165,7 @@ public class SupervisedProducts extends AppCompatActivity implements LocationLis
         isSV = true;
 
 
-
+        binding.supDis.setText(MyGlobals.getInstance().getCurrentUserDistrictName());
 
 
         binding.gridViewSV.setOnScrollListener(new AbsListView.OnScrollListener(){
@@ -173,7 +173,7 @@ public class SupervisedProducts extends AppCompatActivity implements LocationLis
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 if (!binding.gridViewSV.canScrollVertically(1)) {
-                    binding.gridViewSV.animate().setDuration(1200).x(0).y(0).start();
+                    binding.gridViewSV.animate().setDuration(500).x(0).y(0).start();
                 }
             }
             @Override
@@ -181,73 +181,24 @@ public class SupervisedProducts extends AppCompatActivity implements LocationLis
                 if(lastFirstVisibleItem<firstVisibleItem){
                     if(scrolledDown){
 
-                        binding.filter.animate().setDuration(1200).x(0).y(-binding.filter.getHeight()+binding.sBarLTLL.getHeight()+ binding.svUsvLT.getHeight()+80).start();
-                        binding.gridViewSV.animate().setDuration(1200).x(0).y(371).start();
-                        binding.gridViewUSV.animate().setDuration(1200).x(0).y(371).start();
+                        binding.filter.animate().setDuration(500).x(0).y(-binding.filter.getHeight()+binding.sBarLTLL.getHeight()+ binding.svUsvLT.getHeight()+80).start();
+                        binding.gridViewSV.animate().setDuration(500).x(0).y(371).start();
+                        binding.gridViewUSV.animate().setDuration(500).x(0).y(371).start();
 
                         scrolledDown=false;
                     }
                 }
                 if(lastFirstVisibleItem>firstVisibleItem){
 
-                    binding.filter.animate().setDuration(1200).x(0).y(0).start();
-                    binding.gridViewSV.animate().setDuration(1200).x(0).y(0).start();
-                   binding.gridViewUSV.animate().setDuration(1200).x(0).y(0).start();
+                    binding.filter.animate().setDuration(500).x(0).y(0).start();
+                    binding.gridViewSV.animate().setDuration(500).x(0).y(0).start();
+                   binding.gridViewUSV.animate().setDuration(500).x(0).y(0).start();
                     scrolledDown=true;
                 }
                 lastFirstVisibleItem=firstVisibleItem;
             }
         });
-        /*
-        binding.gridViewUSV.setOnScrollListener(new AbsListView.OnScrollListener(){
-            private int lastFirstVisibleItem;
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-            }
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if(lastFirstVisibleItem<firstVisibleItem){
-                    if(scrolledDown){
-                        slideTo(binding.gridViewSV,0, 0, binding.gridViewSV.getHeight(), 0);
-                        slideTo(binding.sBarLTLL,0, 0, binding.sBarLTLL.getHeight(), 0);
-                        slideTo(binding.svUsvLT,0, 0, binding.svUsvLT.getHeight(), 0);
-                        scrolledDown=false;
-                    }
-                }
-                if(lastFirstVisibleItem>firstVisibleItem){
-                    binding.tableLayout1.setVisibility(View.VISIBLE);
-                    //slideTo(binding.gridViewSV,0, 0, -binding.gridViewSV.getHeight()*2,0);
-                    slideTo(binding.sBarLTLL,0, 0, -binding.sBarLTLL.getHeight()*2,0);
-                    slideTo(binding.svUsvLT,0, 0, -binding.svUsvLT.getHeight()*2,0);
-                    slideTo(binding.tableLayout1,0, 0, -binding.tableLayout1.getHeight()*2,0);
-                    //binding.tableLayout1.setVisibility(View.VISIBLE);
-                    scrolledDown=true;
-                }
-                lastFirstVisibleItem=firstVisibleItem;
-            }
-        });*/
-        /*
 
-        binding.tableLayout1.setOnTouchListener(new OnSwipeTouchListener(SupervisedProducts.this) {
-            @Override
-            public void onSwipeLeft() {
-                super.onSwipeLeft();
-                goToUSVpage();
-            }
-            @Override
-            public void onSwipeTop(){
-                super.onSwipeTop();
-                binding.imageView9.setVisibility(View.GONE);
-                binding.tableLayout1.setVisibility(View.GONE);
-            }
-            @Override
-            public void onSwipeBottom() {
-                super.onSwipeBottom();
-                binding.imageView9.setVisibility(View.VISIBLE);
-                binding.tableLayout1.setVisibility(View.VISIBLE);
-
-            }
-        });*/
         binding.searchSupervisedProductsField.addTextChangedListener(new TextWatcher() {
             private Timer timer = new Timer();
             private final long DELAY = 1500; // Milliseconds
@@ -361,18 +312,10 @@ public class SupervisedProducts extends AppCompatActivity implements LocationLis
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                 String time = formatter.format(currentTime);
                 dateSetTXT.setText(time);
-                progressDialog.show();
-                new Thread(new Runnable() {
-                    public void run() {
-                        try {
-                           Thread.sleep(5000);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        progressDialog.dismiss();
-                    }
-                }).start();
-                getLocationInfo();
+                binding.districtTv.setText(MyGlobals.getInstance().getCurrentUserDistrictName());
+                binding.zipCodetv.setText(MyGlobals.getInstance().getCurrentUserZipCode());
+
+                //getLocationInfo();
             }
         });
         cancelBTN.setOnClickListener(new View.OnClickListener() {
@@ -390,6 +333,8 @@ public class SupervisedProducts extends AppCompatActivity implements LocationLis
                 String comCurrentPrice = itemPriceED.getText().toString().trim() + "." + binding.itemPrice2.getText().toString().trim();
                 String DistrictID = getDistrictID();
                 String comTags = itemTagsED.getText().toString().trim();
+                //Check duplicate com in same district
+
 
                 if(FieldIsEmpty(itemNameED) || FieldIsEmpty(itemPriceED) || FieldIsEmpty(itemTagsED)){
                     new AlertDialog.Builder(SupervisedProducts.this)
@@ -402,7 +347,21 @@ public class SupervisedProducts extends AppCompatActivity implements LocationLis
                             .setIcon(android.R.drawable.ic_delete)
                             .show();
                 }else {
-                    AddNewCommodity(comName, comCurrentPrice, DistrictID, comTags, convertImgViewtoString(ItemIMG));
+                    if(!comIsDuplicate(comName, DistrictID)){
+                        AddNewCommodity(comName, comCurrentPrice, DistrictID, comTags, convertImgViewtoString(ItemIMG));
+                    }
+                    else {
+                        new AlertDialog.Builder(SupervisedProducts.this)
+                                .setTitle("Warning")
+                                .setMessage("Commodity already exist within your district")
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                    }
+                                })
+                                .setIcon(android.R.drawable.ic_delete)
+                                .show();
+
+                    }
                 }
             }
         });
@@ -445,23 +404,61 @@ public class SupervisedProducts extends AppCompatActivity implements LocationLis
         binding.tableLayout1.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                binding.filter.animate().setDuration(1200).x(0).y(-binding.filter.getHeight()+binding.sBarLTLL.getHeight()+ binding.svUsvLT.getHeight()+80).start();
-                binding.gridViewSV.animate().setDuration(1200).x(0).y(371).start();
-                binding.gridViewUSV.animate().setDuration(1200).x(0).y(371).start();
+                binding.filter.animate().setDuration(500).x(0).y(-binding.filter.getHeight()+binding.sBarLTLL.getHeight()+ binding.svUsvLT.getHeight()+200).start();
+                binding.gridViewSV.animate().setDuration(500).x(0).y(371).start();
+                binding.gridViewUSV.animate().setDuration(500).x(0).y(371).start();
 
             }
         });
         binding.searchSupervisedProductsField.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                binding.filter.animate().setDuration(1200).x(0).y(0).start();
-                binding.gridViewSV.animate().setDuration(1200).x(0).y(0).start();
-                binding.gridViewUSV.animate().setDuration(1200).x(0).y(0).start();
+                binding.filter.animate().setDuration(500).x(0).y(0).start();
+                binding.gridViewSV.animate().setDuration(500).x(0).y(0).start();
+                binding.gridViewUSV.animate().setDuration(500).x(0).y(0).start();
+            }
+        });
+
+        binding.imageView9.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+
+                Intent i = new Intent(SupervisedProducts.this, AgentDashboard.class);
+                i.putExtra("PhoneNumber", MyGlobals.getInstance().getCurrentPhoneNum());
+                startActivity(i);
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             }
         });
 
 
     }
+    boolean comIsDuplicate(String comName, String DistrictID){
+        String[] field = new String[2];
+        field[0] = "comName";
+        field[1] = "DistrictID";
+        String[] data = new String[2];
+        data[0] = comName;
+        data[1] = DistrictID;
+        InsertData insertData = new InsertData(http+"://"+domain+"/AgriPriceBuddy/CheckcomIsDuplicate.php", "POST", field, data);
+        if (insertData.startPut()) {
+            if (insertData.onComplete()) {
+                String result = insertData.getResult();
+
+                if(result.equals("yes")){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+        }
+        else{
+            return true;
+        }
+        return true;
+    }
+
+
     public void slideTo(int duration, View view, float Xfrom, float Xto, float Yfrom, float Yto){
         //view.setVisibility(View.INVISIBLE);
         TranslateAnimation animate = new TranslateAnimation(
@@ -509,10 +506,7 @@ public class SupervisedProducts extends AppCompatActivity implements LocationLis
         binding.IOSuperviseThis.setVisibility(View.VISIBLE);
         binding.IOUpdate.setVisibility(View.GONE);
         binding.IODelete.setVisibility(View.GONE);
-        binding.usvItemTextView.setTextColor(Color.parseColor("#ffffff"));
-        binding.svItemTextView.setTextColor(Color.parseColor("#a6a6a6"));
-        binding.UnsupervisedItemsBTN.setBackgroundColor(Color.parseColor("#FF7D7D"));
-        binding.SupervisedItemsBTN.setBackgroundColor(Color.parseColor("#f6f6f6"));
+
 
         binding.gridViewSV.setVisibility(View.GONE);
         binding.gridViewUSV.setVisibility(View.VISIBLE);
@@ -523,10 +517,7 @@ public class SupervisedProducts extends AppCompatActivity implements LocationLis
 
     private void goToSVPage(){
         fillSupervisedItemsGrid(false, "none", sortBy);
-        binding.svItemTextView.setTextColor(Color.parseColor("#ffffff"));
-        binding.usvItemTextView.setTextColor(Color.parseColor("#a6a6a6"));
-        binding.SupervisedItemsBTN.setBackgroundColor(Color.parseColor("#59CE8F"));
-        binding.UnsupervisedItemsBTN.setBackgroundColor(Color.parseColor("#f6f6f6"));
+
         binding.gridViewSV.setVisibility(View.VISIBLE);
         binding.gridViewUSV.setVisibility(View.GONE);
     }
@@ -612,6 +603,8 @@ public class SupervisedProducts extends AppCompatActivity implements LocationLis
 
     private void fillItemOverlay(int pos,String[] ComName, String[] ComPic, String[] ComTags, String[] ComCurPrice, String[] ComLastUpdate, String[] ComSupervisor,
     String[] ComDistrictID, String[] comID) throws ParseException {
+
+
         uploadedIMG = false;
         //Open item overlay
         binding.itemOverlay.setVisibility(View.VISIBLE);
@@ -625,11 +618,14 @@ public class SupervisedProducts extends AppCompatActivity implements LocationLis
         //Set Tags
         String tags = ComTags[pos].replaceAll("[,.!?;:]", "$0 ").replaceAll("\\s+", " ");
         binding.tagTview.setText(tags);
+
         //Set Price
         DecimalFormat df = new DecimalFormat("0.00");
         binding.IOItemPrice.setText("Current price: RM " + df.format(Double.parseDouble(ComCurPrice[pos])));
+
         //Set Last Update
         binding.IOLastUpdate.setText("Last updated: " + ComLastUpdate[pos]);
+
         //Set Supervisor
         if(fetchUserFullname(ComSupervisor[pos]).equals("not-set not-set")){
             binding.IOSupervisor.setText("Supervisor: user" + ComSupervisor[pos]);
@@ -683,6 +679,7 @@ public class SupervisedProducts extends AppCompatActivity implements LocationLis
 
 
 
+
         if(isCoSV){
             if(MyGlobals.getInstance().getCurrentUSID().equals(ComSupervisor[pos])){
 
@@ -704,10 +701,26 @@ public class SupervisedProducts extends AppCompatActivity implements LocationLis
 
         //Set Location
         binding.IOCommLocation.setText(getLocationbyID(ComDistrictID[pos]));
+
         //Set graph
-        createPlot(comID[pos], ComLastUpdate[pos]);
+        Date comlastdate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(ComLastUpdate[pos]);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(comlastdate);
+
+        int month2 = cal.get(Calendar.MONTH);
+        if(month2==0){
+            cal.add(Calendar.MONTH, 1);
+            java.util.Date dt = cal.getTime();
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String time = formatter.format(dt);
+            createPlot(comID[pos], time);
+        }else{
+            createPlot(comID[pos], ComLastUpdate[pos]);
+        }
+
         //Set average
         String avrStr = Double.toString(finalAvr);
+
         binding.IOAvrPrice.setText("Average price: RM " + df.format(Double.parseDouble(avrStr)));
 
         binding.IOUpdate.setOnClickListener(new View.OnClickListener() {
@@ -724,6 +737,15 @@ public class SupervisedProducts extends AppCompatActivity implements LocationLis
                 SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                 String time = formatter.format(currentTime);
                 binding.UPDateSet.setText(time);
+                DecimalFormat df = new DecimalFormat("0.00");
+                Double dPrice = Double.parseDouble(ComCurPrice[pos]);
+                String price =  df.format(dPrice);
+
+                binding.UPItemName.setHint(ComName[pos]);
+                String[] prices = price.split("\\.");
+                binding.UPItemPrice.setHint(prices[0]);
+                binding.UPItemPrice2.setHint(prices[1]);
+                binding.UPItemTags.setHint(ComTags[pos]);
 
             }
         });
@@ -734,7 +756,6 @@ public class SupervisedProducts extends AppCompatActivity implements LocationLis
                 binding.ItemUpdatedSuccessfullyFrame.setVisibility(View.GONE);
             }
         });
-
 
         binding.UPAdd.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -826,6 +847,32 @@ public class SupervisedProducts extends AppCompatActivity implements LocationLis
         });
     }
 
+    private void solution(String newComID, Date problemDate){
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String time = formatter.format(problemDate);
+
+        String[] field = new String[2];
+        field[0] = "comID";
+        field[1] = "comLastUpdate";
+
+        String[] data = new String[9];
+        data[0] = newComID;
+        data[1] = time;
+
+
+        InsertData insertData = new InsertData(http+"://"+domain+"/AgriPriceBuddy/solution.php", "POST", field, data);
+        if (insertData.startPut()) {
+            if (insertData.onComplete()) {
+                String result = insertData.getResult();
+
+            }
+        }
+        else{
+        }
+    }
+
+
     private boolean FieldIsEmpty(EditText etText) {
         return etText.getText().toString().trim().length() == 0;
     }
@@ -857,7 +904,7 @@ public class SupervisedProducts extends AppCompatActivity implements LocationLis
         data[7] = currentSupID;
         data[8] = SupervisorID;
 
-        InsertData insertData = new InsertData("http://"+domain+"/AgriPriceBuddy/UpdateComms.php", "POST", field, data);
+        InsertData insertData = new InsertData(http+"://"+domain+"/AgriPriceBuddy/UpdateComms.php", "POST", field, data);
         if (insertData.startPut()) {
             if (insertData.onComplete()) {
                 String result = insertData.getResult();
@@ -887,7 +934,7 @@ public class SupervisedProducts extends AppCompatActivity implements LocationLis
         String[] data = new String[1];
         data[0] = comID;
 
-        InsertData insertData = new InsertData("http://"+domain+"/AgriPriceBuddy/forceDeleteComms.php", "POST", field, data);
+        InsertData insertData = new InsertData(http+"://"+domain+"/AgriPriceBuddy/forceDeleteComms.php", "POST", field, data);
         if (insertData.startPut()) {
             if (insertData.onComplete()) {
                 String result = insertData.getResult();
@@ -922,7 +969,7 @@ public class SupervisedProducts extends AppCompatActivity implements LocationLis
         data[0] = CurrentSup;
         data[1] = ComID;
 
-        InsertData insertData = new InsertData("http://"+domain+"/AgriPriceBuddy/UnSuperViseThis.php", "POST", field, data);
+        InsertData insertData = new InsertData(http+"://"+domain+"/AgriPriceBuddy/UnSuperViseThis.php", "POST", field, data);
         if (insertData.startPut()) {
             if (insertData.onComplete()) {
                 String result = insertData.getResult();
@@ -954,7 +1001,7 @@ public class SupervisedProducts extends AppCompatActivity implements LocationLis
         data[2] = comID;
         data[3] = time;
         data[4] = GenerateUniqueNotiID();
-        InsertData insertData = new InsertData("http://"+domain+"/AgriPriceBuddy/superViseThis.php", "POST", field, data);
+        InsertData insertData = new InsertData(http+"://"+domain+"/AgriPriceBuddy/superViseThis.php", "POST", field, data);
         if (insertData.startPut()) {
             if (insertData.onComplete()) {
                 String result = insertData.getResult();
@@ -988,16 +1035,33 @@ public class SupervisedProducts extends AppCompatActivity implements LocationLis
         graph.getGraph().getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).getPaint().setTextSize(20); //sets the text size of Y
 
         //Create a arrays of y-value to plot:
-        final String[] domainLabels = {"12 months ago","11 months ago","10 months ago","9 months ago","8 months ago",
-                "7 months ago","6 months ago","5 months ago","4 months ago","3 months ago", "2 months ago", "now"};
+        String[] domains = new String[12];
+        Date referenceDate = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(referenceDate);
+        int m, y;
+        for (int i = 0; i < 12; i++) {
+            c.add(Calendar.MONTH, -1);
+
+            m = c.get(Calendar.MONTH) + 1;
+            y= c.get(Calendar.YEAR);
+
+            domains[i] = Integer.toString(m) + "/" +Integer.toString(y);
+
+        }
+
+
+
+
+        final String[] domainLabels = domains;
+        //{"12 months ago","11 months ago","10 months ago","9 months ago","8 months ago","7 months ago","6 months ago","5 months ago","4 months ago","3 months ago", "2 months ago", "now"};
         String[] test = getPrevPricesWithDateForPlot(comID, latestDate);
         final Number [] series1Numbers =  seriesYear(test);
-        final Number [] series2Numbers =  {0,2.5,2.5,2.5,2.5,2.5,2.5,2.5,2.5,2.5,2.5,max+0.5};
+        final Number [] series2Numbers =  {0,2.5,2.5,2.5,2.5,2.5,2.5,2.5,2.5,2.5,2.5,max+1};
         // Turn the above arrays into XYSeries
         XYSeries series1 = new SimpleXYSeries(Arrays.asList(series1Numbers),
                 SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"Series 1");
-        XYSeries series2 = new SimpleXYSeries(Arrays.asList(series2Numbers),
-                SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"Series 2");
+        XYSeries series2 = new SimpleXYSeries(Arrays.asList(series2Numbers),SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,"Series 2");
         LineAndPointFormatter series1Format = new LineAndPointFormatter(Color.GREEN,null,null,null);
         LineAndPointFormatter series2Format = new LineAndPointFormatter(null,null,null,null);
         series1Format.setInterpolationParams(new CatmullRomInterpolator.Params(10,
@@ -1017,10 +1081,7 @@ public class SupervisedProducts extends AppCompatActivity implements LocationLis
         });
         //PanZoom.attach(graph);
     }
-
     private String[] getPrevPricesWithDateForPlot(String comID, String latestDate) throws ParseException {
-        Bundle extras2 = getIntent().getExtras();
-        Handler handler = new Handler(Looper.getMainLooper());
         String[] error = {"Error"};
         //Convert String to date
         Date latestDateConv = new SimpleDateFormat("yyyy-MM-dd").parse(latestDate);
@@ -1063,7 +1124,16 @@ public class SupervisedProducts extends AppCompatActivity implements LocationLis
             }
         }
         calendar.add(Calendar.DAY_OF_MONTH, +(multiplier-Calendar.DAY_OF_MONTH));
+
         Date latestDateF = calendar.getTime();
+        /*
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(latestDateF);
+        int month2 = cal.get(Calendar.MONTH);
+        if(month2==1){
+            cal.add(Calendar.MONTH, 1);
+        }*/
+
         String finalOldestDate = new SimpleDateFormat("yyyy-MM-dd").format(oldestDateConv);
         String finalLatestDate = new SimpleDateFormat("yyyy-MM-dd").format(latestDateF);
 
@@ -1075,7 +1145,8 @@ public class SupervisedProducts extends AppCompatActivity implements LocationLis
         data[0] = comID;
         data[1] = finalLatestDate;
         data[2] = finalOldestDate;
-        InsertData insertData = new InsertData("http://"+domain+"/AgriPriceBuddy/getPrevPricesPlot.php", "POST", field, data);
+        //.makeText(this, "old: " + finalOldestDate + " latest: " + finalLatestDate, Toast.LENGTH_SHORT).show();
+        InsertData insertData = new InsertData(http+"://"+domain+"/AgriPriceBuddy/getPrevPricesPlot.php", "POST", field, data);
         if (insertData.startPut()) {
             if (insertData.onComplete()) {
                 String result = insertData.getResult();
@@ -1091,8 +1162,133 @@ public class SupervisedProducts extends AppCompatActivity implements LocationLis
     }
     double max=0;
 
+
     private Number[] seriesYear(String[] data) throws ParseException {
         //1 Whole Year
+
+        String[] splitData;
+        Calendar cal = Calendar.getInstance();
+
+        double price, prevPrice;
+
+        double[] totalPricesM = new double[12];
+        double[] avgPricesM = new double[12];
+        double[] timesUpdatedInAmonth = new double[12];
+        //init arrays
+        for (int i = 0; i < totalPricesM.length; i++) {
+            totalPricesM[i] = 0;
+            avgPricesM[i] = 1;
+            timesUpdatedInAmonth[i] = 0;
+        }
+
+        //Split data one by one to Price and record date
+        for (int i = 0; i < data.length; i++) {
+            splitData = data[i].split("\\|");
+
+            //Conv date
+            Date assocDate=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(splitData[1]);
+            cal.setTime(assocDate);
+            int month = cal.get(Calendar.MONTH) + 1;
+            //Toast.makeText(this, "month: " + month, Toast.LENGTH_SHORT).show();
+            //Conv price
+            double tempPrice = Double.valueOf(splitData[0]);
+
+            if(month==1){totalPricesM[0]+=tempPrice; timesUpdatedInAmonth[0]+=1;}
+            else if(month==2){totalPricesM[1]+=tempPrice; timesUpdatedInAmonth[1]+=1;}
+            else if(month==3){totalPricesM[2]+=tempPrice; timesUpdatedInAmonth[2]+=1;}
+            else if(month==4){totalPricesM[3]+=tempPrice; timesUpdatedInAmonth[3]+=1;}
+            else if(month==5){totalPricesM[4]+=tempPrice; timesUpdatedInAmonth[4]+=1;}
+            else if(month==6){totalPricesM[5]+=tempPrice; timesUpdatedInAmonth[5]+=1;}
+            else if(month==7){totalPricesM[6]+=tempPrice; timesUpdatedInAmonth[6]+=1;}
+            else if(month==8){totalPricesM[7]+=tempPrice; timesUpdatedInAmonth[7]+=1;}
+            else if(month==9){totalPricesM[8]+=tempPrice; timesUpdatedInAmonth[8]+=1;}
+            else if(month==10){totalPricesM[9]+=tempPrice; timesUpdatedInAmonth[9]+=1;}
+            else if(month==11){totalPricesM[10]+=tempPrice; timesUpdatedInAmonth[10]+=1;}
+            else if(month==12){totalPricesM[11]+=tempPrice; timesUpdatedInAmonth[11]+=1;}
+            /*
+            splitData[0]//= price
+            splitData[1]//=date
+            */
+        }
+        //
+
+
+        for (int i = 0; i < avgPricesM.length; i++) {
+            if(timesUpdatedInAmonth[i] == 0){
+                timesUpdatedInAmonth[i] = 1;
+            }
+            avgPricesM[i] = totalPricesM[i]/timesUpdatedInAmonth[i];
+            //Toast.makeText(this, "avg price: " +i +" " + avgPricesM[i], Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Month : " +i +" Totalprice: " + totalPricesM[i] + " timesUpdated: " + timesUpdatedInAmonth[i], Toast.LENGTH_SHORT).show();
+
+
+        }
+
+
+
+        double[] avgPricesMDes = new double[12];
+        int j = 0;
+        for (int i = 11; i > -1 ; --i) {
+            avgPricesMDes[j] = avgPricesM[i];
+            j+=1;
+        }
+        avgPricesM = avgPricesMDes;
+
+
+        ArrayList<Double> Candidate = new ArrayList<Double>();
+
+
+        for (int i = 0; i < avgPricesM.length; i++) {
+            if(avgPricesM[i]==0){
+                for (int h = i; h < avgPricesM.length; h++) {
+                    if(avgPricesM[h] != 0){
+                        avgPricesM[i] = avgPricesM[h];
+                        break;
+                        //Candidate.add(avgPricesM[h]);
+                    }
+
+                }
+
+            }
+            //Toast.makeText(this, "avg price: " +i +" " + avgPricesM[i], Toast.LENGTH_SHORT).show();
+            // avgPricesM[i] = avgPricesM[11];
+        }
+
+
+
+
+
+
+
+        //Convert to Number
+        double totalAvr=0;
+        max = 0;
+
+        for (int i = 0; i < avgPricesM.length; i++) {
+            if(avgPricesM[i]>max){
+                max=avgPricesM[i];
+
+            }
+
+            totalAvr+=avgPricesM[i];
+        }
+        finalAvr=totalAvr/12;
+        Number[] temp = new Number[12];
+        for (int i = 0; i < avgPricesM.length; i++) {
+            temp[i] = (Number)avgPricesM[i];
+        }
+
+
+
+        return temp;
+    }
+
+
+
+
+    /*private Number[] seriesYear(String[] data) throws ParseException {
+        //1 Whole Year
+
         String[] splitData, prevSplitData = {"error"};
         Calendar cal = Calendar.getInstance();
         Calendar cal2 = Calendar.getInstance();
@@ -1192,7 +1388,7 @@ public class SupervisedProducts extends AppCompatActivity implements LocationLis
         }
 
         return temp;
-    }
+    }*/
 
     double finalAvr=0;
 
@@ -1206,7 +1402,7 @@ public class SupervisedProducts extends AppCompatActivity implements LocationLis
 
         String[] data = new String[1];
         data[0] = ComID;
-        InsertData insertData = new InsertData("http://"+domain+"/AgriPriceBuddy/fetchAllSVs.php", "POST", field, data);
+        InsertData insertData = new InsertData(http+"://"+domain+"/AgriPriceBuddy/fetchAllSVs.php", "POST", field, data);
         if (insertData.startPut()) {
             if (insertData.onComplete()) {
                 String result = insertData.getResult();
@@ -1236,7 +1432,7 @@ public class SupervisedProducts extends AppCompatActivity implements LocationLis
 
         String[] data = new String[1];
         data[0] = Userid;
-        InsertData insertData = new InsertData("http://"+domain+"/AgriPriceBuddy/fetchUserfName.php", "POST", field, data);
+        InsertData insertData = new InsertData(http+"://"+domain+"/AgriPriceBuddy/fetchUserfName.php", "POST", field, data);
         if (insertData.startPut()) {
             if (insertData.onComplete()) {
                 String fnameR = insertData.getResult();
@@ -1250,12 +1446,12 @@ public class SupervisedProducts extends AppCompatActivity implements LocationLis
     }
 
     private String getLocationbyID(String DistrictID){
-        Handler handler = new Handler(Looper.getMainLooper());
+
         String[] field = new String[1];
         field[0] = "DistrictID";
         String[] data = new String[1];
         data[0] = DistrictID;
-        InsertData insertData = new InsertData("http://"+domain+"/AgriPriceBuddy/fetchLocation.php", "POST", field, data);
+        InsertData insertData = new InsertData(http+"://"+domain+"/AgriPriceBuddy/fetchLocation.php", "POST", field, data);
         if (insertData.startPut()) {
             if (insertData.onComplete()) {
                 String location = insertData.getResult();
@@ -1373,7 +1569,7 @@ public class SupervisedProducts extends AppCompatActivity implements LocationLis
         data[0] = MyGlobals.getInstance().getCurrentUSID();
         data[1] = keyword;
         data[2] = sortBy;
-        InsertData insertData = new InsertData("http://"+domain+"/AgriPriceBuddy/SearchClauseUnderSV.php", "POST", field, data);
+        InsertData insertData = new InsertData(http+"://"+domain+"/AgriPriceBuddy/SearchClauseUnderSV.php", "POST", field, data);
         if (insertData.startPut()) {
             if (insertData.onComplete()) {
                 String result = insertData.getResult();
@@ -1403,7 +1599,7 @@ public class SupervisedProducts extends AppCompatActivity implements LocationLis
         data[0] = MyGlobals.getInstance().getCurrentUSID();
         data[1] = keyword;
         data[2] = sortBy;
-        InsertData insertData = new InsertData("http://"+domain+"/AgriPriceBuddy/SearchClauseNotUnderSV.php", "POST", field, data);
+        InsertData insertData = new InsertData(http+"://"+domain+"/AgriPriceBuddy/SearchClauseNotUnderSV.php", "POST", field, data);
         if (insertData.startPut()) {
             if (insertData.onComplete()) {
                 String result = insertData.getResult();
@@ -1430,7 +1626,7 @@ public class SupervisedProducts extends AppCompatActivity implements LocationLis
         String[] data = new String[2];
         data[0] = MyGlobals.getInstance().getCurrentUSID();
         data[1] = sortBy;
-        InsertData insertData = new InsertData("http://"+domain+"/AgriPriceBuddy/fetchSVComms.php", "POST", field, data);
+        InsertData insertData = new InsertData(http+"://"+domain+"/AgriPriceBuddy/fetchSVComms.php", "POST", field, data);
         if (insertData.startPut()) {
             if (insertData.onComplete()) {
                 String result = insertData.getResult();
@@ -1457,9 +1653,9 @@ public class SupervisedProducts extends AppCompatActivity implements LocationLis
         data[1] = sortBy;
         data[2] = MyGlobals.getInstance().getCurrentUserDistrictID();
 
-        Toast.makeText(this, "DID" + data[2], Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "DID" + data[2], Toast.LENGTH_SHORT).show();
 
-        InsertData insertData = new InsertData("http://"+domain+"/AgriPriceBuddy/fetchUSVComss.php", "POST", field, data);
+        InsertData insertData = new InsertData(http+"://"+domain+"/AgriPriceBuddy/fetchUSVComss.php", "POST", field, data);
 
         if (insertData.startPut()) {
             if (insertData.onComplete()) {
@@ -1489,11 +1685,11 @@ public class SupervisedProducts extends AppCompatActivity implements LocationLis
         data[0] = binding.districtTv.getText().toString().trim();
         data[1] = binding.zipCodetv.getText().toString().trim();
 
-        InsertData insertData = new InsertData("http://"+domain+"/AgriPriceBuddy/fetchTrueDistrictID.php", "POST", field, data);
+        InsertData insertData = new InsertData(http+"://"+domain+"/AgriPriceBuddy/fetchTrueDistrictID.php", "POST", field, data);
         if (insertData.startPut()) {
             if (insertData.onComplete()) {
                 String result = insertData.getResult();
-                Toast.makeText(this, "dist ID: " + result, Toast.LENGTH_LONG).show();
+                //Toast.makeText(this, "dist ID: " + result, Toast.LENGTH_LONG).show();
                 return result;
             }
         }

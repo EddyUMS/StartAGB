@@ -8,10 +8,12 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,6 +36,7 @@ import com.startagb.startagb.databinding.FarmerLoginPgBinding;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity3 extends AppCompatActivity {
+    public String http = MyGlobals.getInstance().getHttp();
     private String roleNum = "2";
     private ImageView backbtn_from_agl;
     private AgentLoginPgBinding agpgbng_binding;   //view binding
@@ -48,6 +51,8 @@ public class MainActivity3 extends AppCompatActivity {
     private String code;
     private boolean loggin_in = false;
     public String domain = MyGlobals.getInstance().getDomain();
+    public SharedPreferences settings;
+    SharedPreferences.Editor editor;
     //
 
     @Override
@@ -67,6 +72,9 @@ public class MainActivity3 extends AppCompatActivity {
         pd = new ProgressDialog(this);
         pd.setTitle("Please wait...");
         pd.setCanceledOnTouchOutside(false);
+        settings =  PreferenceManager.getDefaultSharedPreferences(MainActivity3.this);
+        SharedPreferences.Editor editorr = settings.edit();
+        editor = editorr;
         mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
@@ -99,6 +107,7 @@ public class MainActivity3 extends AppCompatActivity {
         agpgbng_binding.gotoLoginBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                agpgbng_binding.resetpassword.setVisibility(View.VISIBLE);
                 agpgbng_binding.PhoneNumColumn.setVisibility(View.GONE);
                 agpgbng_binding.PhoneNumColumnLogin.setVisibility(View.VISIBLE);
                 loggin_in = true;
@@ -120,12 +129,24 @@ public class MainActivity3 extends AppCompatActivity {
             }
         });
 
+        if(!settings.getString("phonenum", "0").equals("0")){
+            if(!settings.getString("pass", "0").equals("0")){
+                if(settings.getString("role", "0").equals("2")){
+                    Login(settings.getString("phonenum", "0"), settings.getString("pass", "0"));
+                }
+            }
+        }
+        else{
+        }
+
         //Login
         agpgbng_binding.agentNumLogin.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 String phoneLogin = agpgbng_binding.agentPhoneNumberFieldLogin.getText().toString().trim();
                 String passLogin = agpgbng_binding.FillPassField.getText().toString().trim();
+                editor.putString("phonenum", phoneLogin);
+                editor.putString("pass", passLogin);
 
                 if(TextUtils.isEmpty(phoneLogin)){
                     Toast.makeText(MainActivity3.this, "Please enter phone number...", Toast.LENGTH_SHORT).show();
@@ -142,6 +163,14 @@ public class MainActivity3 extends AppCompatActivity {
                     }
 
                 }
+            }
+        });
+
+        agpgbng_binding.resetpassword.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity3.this, ResetPassword.class);
+                startActivity(i);
             }
         });
         agpgbng_binding.agentCodeResend.setOnClickListener(new View.OnClickListener(){
@@ -176,7 +205,6 @@ public class MainActivity3 extends AppCompatActivity {
         });
         create_back_button();
     }
-
     private void Login(String PhoneNumber, String password) {
         Bundle extras2 = getIntent().getExtras();
         Handler handler = new Handler(Looper.getMainLooper());
@@ -190,15 +218,16 @@ public class MainActivity3 extends AppCompatActivity {
                 data[0] = "+60"+PhoneNumber;
                 data[1] = password;
 
-                InsertData insertData = new InsertData("http://"+domain+"/AgriPriceBuddy/LoginNumber.php", "POST", field, data);
+                InsertData insertData = new InsertData(http+"://"+domain+"/AgriPriceBuddy/LoginNumber.php", "POST", field, data);
 
                 if (insertData.startPut()) {
                     if (insertData.onComplete()) {
                         String result = insertData.getResult();
-                        if(result.equals("Login Success")){
+                        if(result.equals("Login Success")){/*
                             Intent i = new Intent(MainActivity3.this, AgentDashboard.class);
                             i.putExtra("PhoneNumber", data[0]);
-                            startActivity(i);
+                            startActivity(i);*/
+                            fetchUserRoles(data[0]);
                         }
                         else{
                             Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
@@ -211,10 +240,54 @@ public class MainActivity3 extends AppCompatActivity {
             }
         });
     }
+    private void fetchUserRoles(String UserphoneNumber) {
+        Bundle extras2 = getIntent().getExtras();
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                String[] field = new String[1];
+                field[0] = "PhoneNumber";
 
+                String[] data = new String[1];
+                data[0] = UserphoneNumber;
 
+                InsertData insertData = new InsertData(http+"://"+domain+"/AgriPriceBuddy/fetchUserRoles.php", "POST", field, data);
+                if (insertData.startPut()) {
+                    if (insertData.onComplete()) {
+                        String result = insertData.getResult();
+                        String[] parts = result.split("\\|");
+                        String userId  = parts[0];
+                        String retriUserrole = parts[1];
+                        MyGlobals.getInstance().setCurrentRole(retriUserrole);
+                        editor.putString("role", retriUserrole);
+                        editor.commit();
+                        boolean RegisteredAgent = retriUserrole.indexOf("2") !=-1? true: false;
+                        if(!RegisteredAgent){
 
+                            Toast.makeText(getApplicationContext(),"User is not registered as Agent",Toast.LENGTH_LONG).show();
 
+                        }
+                        else
+                        {
+                            boolean RegisteredAgentVer2 = retriUserrole.indexOf("NAR") !=-1? true: false;
+                            if(RegisteredAgentVer2){
+                                Toast.makeText(getApplicationContext(),"User is not registered as Agent",Toast.LENGTH_LONG).show();
+
+                            }
+                            else{
+                                Intent i = new Intent(MainActivity3.this, AgentDashboard.class);
+                                i.putExtra("PhoneNumber",  UserphoneNumber);
+                                startActivity(i);
+                                overridePendingTransition(0,0);
+                            }
+
+                        }
+                    }
+                }
+            }
+        });
+    }
     private void startPhoneNumberVer(String phone) {
         pd.setMessage("Verifying Phone Number");
         pd.show();
@@ -240,14 +313,12 @@ public class MainActivity3 extends AppCompatActivity {
                         .build();
         PhoneAuthProvider.verifyPhoneNumber(options);
     }
-
     private void VerifyPhoneNumberWithCode(String nVerificationId, String code) {
         pd.setMessage("Verifying Code");
         pd.show();
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(nVerificationId, code);
         signInWithPhoneAuthCredential(credential);
     }
-
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
         pd.setMessage("Logging in");
         firebaseAuth.signInWithCredential(credential)
@@ -276,9 +347,6 @@ public class MainActivity3 extends AppCompatActivity {
                     }
                 });
     }
-
-
-
     public void create_back_button()
     {
         //Going back to choose role page/activity
@@ -293,7 +361,6 @@ public class MainActivity3 extends AppCompatActivity {
         });
         //====================================
     }
-
     public void finish()
     {
         super.finish();

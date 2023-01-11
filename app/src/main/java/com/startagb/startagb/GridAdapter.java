@@ -23,6 +23,7 @@ import java.util.ArrayList;
 
 public class GridAdapter extends BaseAdapter {
     public String domain = MyGlobals.getInstance().getDomain();
+    public String http = MyGlobals.getInstance().getHttp();
     Context context;
     String[] items;
     String[] blob;
@@ -45,7 +46,6 @@ public class GridAdapter extends BaseAdapter {
         this.ComDistrictID=ComDistrictID;
         this.ComSvID = ComSVID;
     }
-
 
 
 
@@ -133,7 +133,7 @@ public class GridAdapter extends BaseAdapter {
         field[0] = "comSupervisorID";
         String[] data = new String[1];
         data[0] = comSVID;
-        InsertData insertData = new InsertData("http://"+domain+"/AgriPriceBuddy/fetchCreator.php", "POST", field, data);
+        InsertData insertData = new InsertData(http+"://"+domain+"/AgriPriceBuddy/fetchCreator.php", "POST", field, data);
         if (insertData.startPut()) {
             if (insertData.onComplete()) {
                 String name = insertData.getResult();
@@ -156,7 +156,7 @@ public class GridAdapter extends BaseAdapter {
         field[0] = "ComID";
         String[] data = new String[1];
         data[0] = ComID;
-        InsertData insertData = new InsertData("http://"+domain+"/AgriPriceBuddy/GetPrevPrices.php", "POST", field, data);
+        InsertData insertData = new InsertData(http+"://"+domain+"/AgriPriceBuddy/GetPrevPrices.php", "POST", field, data);
         if (insertData.startPut()) {
             if (insertData.onComplete()) {
                 String prevPricesInString = insertData.getResult();
@@ -188,7 +188,7 @@ public class GridAdapter extends BaseAdapter {
         field[0] = "DistrictID";
         String[] data = new String[1];
         data[0] = DistrictID;
-        InsertData insertData = new InsertData("http://"+domain+"/AgriPriceBuddy/fetchLocation.php", "POST", field, data);
+        InsertData insertData = new InsertData(http+"://"+domain+"/AgriPriceBuddy/fetchLocation.php", "POST", field, data);
         if (insertData.startPut()) {
             if (insertData.onComplete()) {
                 String location = insertData.getResult();
