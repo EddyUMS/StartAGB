@@ -27,6 +27,27 @@
             android:gravity="center"
             android:textColor="@color/white"
             android:layout_gravity="center"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="•"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:id="@+id/disTx"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="[District]"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+          />
 
     </LinearLayout>
 
@@ -443,17 +464,7 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/disTx"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="List of users in: [District]"
-                android:textSize="16sp"
-                android:textColor="#95000000"
-                android:padding="10dp"
-                android:textStyle="bold"
-                android:layout_marginTop="20dp"
-                android:background="#50CFFDE1"/>
+
 
             <ProgressBar
                 android:id="@+id/loadUsersPB"
@@ -471,21 +482,12 @@
                 android:visibility="visible"
                 android:background="#ffffff"/>
 
-            <ImageView
-                android:id="@+id/friendsBar"
-                android:clickable="true"
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/friend_bar"
-                android:layout_marginTop="-38dp"/>
 
             <GridView
 
                 android:id="@+id/GridViewFriendList"
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
-                android:layout_marginTop="-40dp"
                 android:numColumns="1"
                 android:gravity="center"
                 android:visibility="gone"

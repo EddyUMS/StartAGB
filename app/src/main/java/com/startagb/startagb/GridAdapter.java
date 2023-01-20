@@ -94,6 +94,7 @@ public class GridAdapter extends BaseAdapter {
         DecimalFormat df = new DecimalFormat("0.00");
         comprice.setText("Current Price: \nRM " + df.format(Double.parseDouble(ComCurrentPrice[position])));
         comlastupdate.setText("Last Update: " + ComLastUpdate[position]);
+        //comSD.setText("Average Price : \nRM " + df.format(calculateAverage(GetPrevPrices(ComID[position]))));
         comSD.setText("Average Price : \nRM " + df.format(calculateAverage(GetPrevPrices(ComID[position]))));
         comdistrict.setText(getLocationbyID(ComDistrictID[position]));
         if(getCreator(ComSvID[position]).equals("not-set not-set")){

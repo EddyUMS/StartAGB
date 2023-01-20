@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">StartAGB</string>
+    <string name="app_name">AG-PriceBuddy</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>

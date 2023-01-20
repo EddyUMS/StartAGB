@@ -43,7 +43,7 @@ public class Users extends AppCompatActivity {
     private String[] UseridF, FirstNameF, LastNameF, IsActiveF, DistrictIDF, UserPicF, RoleIDF;
     private String[] UseridFR, FirstNameFR, LastNameFR, IsActiveFR, DistrictIDFR, UserPicFR, RoleIDFR;
     boolean isNotfren = true;
-
+    boolean atFrenpage=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +51,7 @@ public class Users extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         binding = com.startagb.startagb.databinding.ActivityUsersBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        binding.disTx.setText("List of users in: " + MyGlobals.getInstance().getCurrentUserDistrictName());
+        binding.disTx.setText(MyGlobals.getInstance().getCurrentUserDistrictName());
         BuildUserList("-1");
         if(hasUsers){
             if(hasFrens){
@@ -86,20 +86,21 @@ public class Users extends AppCompatActivity {
         binding.friends.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                binding.disTx.setVisibility(View.GONE);
+                atFrenpage=true;
+                binding.disTx.setVisibility(View.VISIBLE);
                 binding.GridViewUserList.setVisibility(View.GONE);
 
-                binding.friendsBar.setVisibility(View.VISIBLE);
+                binding.disTx.setText("Friends");
                 binding.GridViewFriendList.setVisibility(View.VISIBLE);
             }
         });
         binding.users.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                atFrenpage=false;
                 binding.disTx.setVisibility(View.VISIBLE);
+                binding.disTx.setText(MyGlobals.getInstance().getCurrentUserDistrictName());
                 binding.GridViewUserList.setVisibility(View.VISIBLE);
-
-                binding.friendsBar.setVisibility(View.GONE);
                 binding.GridViewFriendList.setVisibility(View.GONE);
             }
         });
@@ -136,6 +137,13 @@ public class Users extends AppCompatActivity {
                                 binding.loadUsersPB.setVisibility(View.GONE);
 
                                 if(hasUsers){
+                                    if(atFrenpage){
+                                        binding.GridViewUserList.setVisibility(View.GONE);
+                                    }
+                                    else{
+                                        binding.GridViewUserList.setVisibility(View.VISIBLE);
+                                    }
+
                                     if(!noStrangers){
                                         binding.GridViewUserList.setVisibility(View.VISIBLE);
                                         GridAdapterUsers gridAdapterUsers = new GridAdapterUsers(Users.this, UseridF, FirstNameF, LastNameF, IsActiveF, DistrictIDF, UserPicF,  RoleIDF);

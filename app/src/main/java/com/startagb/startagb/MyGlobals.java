@@ -16,9 +16,12 @@ public class MyGlobals {
     }
 
     //private String domain = "192.168.1.21";//Wifi Kasigui
-    private String domain = "192.168.49.246"; //Phone Hotspotx
-    //private String domain = "0c9c-183-171-158-213.ap.ngrok.io"; //ngrok
+    ///private String domain = "192.168.49.246"; //Phone Hotspotx PDA
+    private String domain = "192.168.43.152"; //Phone Hotspotx
+    //private String domain = "7e02-183-171-158-213.ap.ngrok.io"; //ngrok
+    //ngrok http https://localhost
     private String http = "http";
+    //private String http = "https";
     private String CurrentUSID;
     private String CurrentDistrictName;
     private String CurrentUserName;

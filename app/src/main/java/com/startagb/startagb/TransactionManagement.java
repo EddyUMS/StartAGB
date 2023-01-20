@@ -650,21 +650,30 @@ public class TransactionManagement extends AppCompatActivity {
 
                     "                            <!-- Row end -->\n" +
                     "                            <!-- Row start -->\n" +
-                    "                            <div class=\"row gutters\">\n" +
-                    "                                <div class=\"col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12\">\n" +
-
-                    "                                </div>\n" +
-                    "                                <div class=\"col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12\">\n" +
-                    "                                    <div class=\"invoice-details\">\n" +
-                    "                                        <div class=\"invoice-num\">\n" +
-                    "                                            <div style=\"text-align:left;\">Customer: "+BuyerName+"</div>\n" +
-                    "                                            <div style=\"text-align:left;\">Phone number: "+BuyerPhone+"</div>\n" +
-                    "                                            <div>Invoice - #"+InvoiceNum+"</div>\n" +
-                    "                                            <div>"+time+"</div>\n" +
-                    "                                        </div>\n" +
-                    "                                    </div>                                                  \n" +
-                    "                                </div>\n" +
-                    "                            </div>\n" +
+                    " <div class=\"row gutters\">\n" +
+                    "                                                                 <div class=\"col-md-auto\">\n" +
+                    "                                                                     <div class=\"invoice-details row\">\n" +
+                    "                                                                         <div class=\"col-md-auto\">\n" +
+                    "                                                                             Customer:<br>\n" +
+                    "                                                                         <address class=\"col-md-auto\">\n" +
+                    "                                                                             "+BuyerName+"<br>\n" +
+                    "                                                                         </address>\n" +
+                    "                                                                             Phone number:\n" +
+                    "                                                                         <address class=\"col-md-auto\">\n" +
+                    "                                                                             "+BuyerPhone+"\n" +
+                    "                                                                         </address>\n" +
+                    "                                                                         </div>\n" +
+                    "                                                                     </div>\n" +
+                    "                                                                 </div>\n" +
+                    "                                                                 <div class=\"col-lg\">\n" +
+                    "                                                                     <div class=\"invoice-details\">\n" +
+                    "                                                                         <div class=\"invoice-num\">\n" +
+                    "                                                                             <div>Invoice - #"+InvoiceNum+"</div>\n" +
+                    "                                                                             <div>"+time+"</div>\n" +
+                    "                                                                         </div>\n" +
+                    "                                                                     </div>\n" +
+                    "                                                                 </div>\n" +
+                    "                                                             </div>"+
                     "                            <!-- Row end -->\n" +
                     "                        </div>\n" +
                     "                        <div class=\"invoice-body\">\n" +
